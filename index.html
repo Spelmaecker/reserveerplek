@@ -570,7 +570,7 @@ function renderTafelKaart(tafel, dag){
 // ── TAFEL VISUALISATIE ────────────────────────────────────────
 function renderTafelVis(tafel, dag, res, max){
   // Grootte op basis van aantal stoelen
-  const VIS   = Math.max(200, 150 + max * 18);
+  const VIS   = 294; // altijd even groot (= grootte van 8 stoelen: 150 + 8*18)
   const MID   = VIS / 2;
   const TR    = Math.round(VIS * 0.20);   // tafel radius
   const SR    = Math.round(VIS * 0.115);  // stoel radius
