@@ -60,7 +60,7 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .sd-geen{font-size:13px;color:var(--txt2);font-style:italic;padding:4px 0}
 
 /* ── TAFELS GRID ── */
-.tafels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.tafels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
 
 /* ── TAFELKAART – donkere speeltafel stijl ── */
 .tafelkaart{
@@ -72,6 +72,9 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
   transition:all .25s;
   text-align:center;
   position:relative;
+  /* hoogte past zich automatisch aan de inhoud aan */
+  height:auto;
+  overflow:visible;
 }
 .tafelkaart:hover{border-color:#fc5802;box-shadow:0 8px 28px rgba(0,0,0,.4),0 0 0 2px rgba(252,88,2,.2)}
 .tafelkaart.sel{border-color:var(--or);box-shadow:0 0 0 3px rgba(252,88,2,.3),0 8px 28px rgba(0,0,0,.4)}
@@ -82,7 +85,7 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .tk-spel{font-size:11px;color:var(--or);font-weight:600;margin-bottom:14px;min-height:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px}
 
 /* ── RONDE TAFEL VISUALISATIE – speeltafelstijl ── */
-.tafel-vis{position:relative;margin:0 auto 14px}
+.tafel-vis{position:relative;margin:0 auto 14px;flex-shrink:0}
 
 /* De groene tafel */
 .tafel-cirkel{
@@ -567,7 +570,7 @@ function renderTafelKaart(tafel, dag){
 // ── TAFEL VISUALISATIE ────────────────────────────────────────
 function renderTafelVis(tafel, dag, res, max){
   // Grootte op basis van aantal stoelen
-  const VIS   = Math.max(190, 140 + max * 16);
+  const VIS   = Math.max(200, 150 + max * 18);
   const MID   = VIS / 2;
   const TR    = Math.round(VIS * 0.20);   // tafel radius
   const SR    = Math.round(VIS * 0.115);  // stoel radius
