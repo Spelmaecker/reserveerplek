@@ -519,7 +519,7 @@ function renderAlles(){ renderSpeldagen(); vulSpeldagDropdown(); }
 
 function renderSpeldagen(){
   const nu=new Date(); nu.setHours(0,0,0,0);
-  const komend=S.speldagen.filter(d=>new Date(d.datum)>=nu).sort((a,b)=>new Date(a.datum)-new Date(b.datum));
+  const komend=S.speldagen.filter(d=>parseDatum(d.datum)>=nu).sort((a,b)=>parseDatum(a.datum)-parseDatum(b.datum));
   document.getElementById('badge-count').textContent=komend.length+' dag'+(komend.length!==1?'en':'');
   const c=document.getElementById('speldagen-container');
   if(!komend.length){c.innerHTML='<p style="color:var(--txt2);font-size:14px">Nog geen speldagen ingepland.</p>';return;}
@@ -638,7 +638,7 @@ function renderLedenLijst(res){
 function vulSpeldagDropdown(){
   const sel=document.getElementById('n-speldag');
   const nu=new Date();nu.setHours(0,0,0,0);
-  const komend=S.speldagen.filter(d=>new Date(d.datum)>=nu).sort((a,b)=>new Date(a.datum)-new Date(b.datum));
+  const komend=S.speldagen.filter(d=>parseDatum(d.datum)>=nu).sort((a,b)=>parseDatum(a.datum)-parseDatum(b.datum));
   sel.innerHTML='<option value="">– Kies een speldag –</option>'+
     komend.map(d=>`<option value="${d.id}">${formatDatum(d.datum)} – ${d.locatie||''} (${formatUur(d.startuur)}–${formatUur(d.einduur)})</option>`).join('');
 }
@@ -817,12 +817,12 @@ function sluitBeheer(){document.getElementById('beheer-modal').classList.remove(
 function renderBeheerLijst(){
   const lijst=document.getElementById('beheer-lijst');
   const nu=new Date();nu.setHours(0,0,0,0);
-  const alle=[...S.speldagen].sort((a,b)=>new Date(a.datum)-new Date(b.datum));
+  const alle=[...S.speldagen].sort((a,b)=>parseDatum(a.datum)-parseDatum(b.datum));
   if(!alle.length){lijst.innerHTML='<p style="font-size:13px;color:var(--txt2)">Nog geen speldagen.</p>';return;}
   lijst.innerHTML=alle.map(d=>{
     const tafels=S.tafels.filter(t=>t.speldagId==d.id).length;
     const res=S.reservaties.filter(r=>r.speldagId==d.id).length;
-    const oud=new Date(d.datum)<nu;
+    const oud=parseDatum(d.datum)<nu;
     return `<div class="beheer-dag">
       <div class="beheer-dag-info">
         <strong>${formatDatum(d.datum)} ${oud?'<span style="background:#f0e6dc;color:#9a6a4a;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600">Voorbij</span>':''}</strong>
@@ -865,12 +865,19 @@ function formatUur(w){
   const m=s.match(/T(\d{2}:\d{2})/)||s.match(/(\d{1,2}:\d{2})/);
   return m?m[1]:s;
 }
-function formatDatum(d){
-  if(!d) return '–';
+function parseDatum(d){
+  // Altijd lokaal parsen – voorkomt UTC-tijdzone verschuiving
+  if(!d) return new Date(NaN);
   const s=String(d).split('T')[0];
   const [j,m,dag]=s.split('-').map(Number);
-  if(!j) return String(d);
-  return new Date(j,m-1,dag).toLocaleDateString('nl-BE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  if(!j||!m||!dag) return new Date(NaN);
+  return new Date(j,m-1,dag);
+}
+function formatDatum(d){
+  if(!d) return '–';
+  const dt=parseDatum(d);
+  if(isNaN(dt)) return String(d);
+  return dt.toLocaleDateString('nl-BE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 }
 function initialen(n){return (n||'').trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
