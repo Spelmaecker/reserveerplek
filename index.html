@@ -8,9 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --or:#fc5802;--or2:#d94b00;--br:#322424;--br2:#4a3535;
+  --or:#fc5802;--or2:#d94b00;--br:#322424;--br2:#3d2b2b;
   --cr:#fdf8f4;--cr2:#f0e6dc;--wit:#fff;--rnd:#ddd0c6;
   --txt:#322424;--txt2:#7a5f5f;--grn:#2a7d4f;
+  /* Tafel kleuren – zelfde stijl als screenshot */
+  --tafel-bg:#1a1008;       /* donkere achtergrond per kaart */
+  --tafel-groen:#2d6a3f;    /* groene tafelvlak */
+  --tafel-groen2:#235232;   /* rand/schaduw */
+  --stoel-leeg:#3a2a1a;     /* lege stoel kleur */
+  --stoel-bezet:#4a3828;    /* bezette stoel donker */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--txt);min-height:100vh;overflow-x:hidden}
@@ -18,16 +24,14 @@ button,input,select,textarea{font-family:'DM Sans',sans-serif}
 button{cursor:pointer}
 
 /* ── HEADER ── */
-header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px;padding:0 28px;position:sticky;top:0;z-index:300;box-shadow:0 3px 20px rgba(50,36,36,.4)}
-.logo-wrap{
-  width:52px;height:52px;border-radius:50%;overflow:hidden;
-  border:2.5px solid var(--or);flex-shrink:0;background:var(--or);
-  box-shadow:0 0 0 3px rgba(252,88,2,.25);
-}
-.logo-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 15%}
+header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px;padding:0 28px;position:sticky;top:0;z-index:300;box-shadow:0 3px 20px rgba(50,36,36,.5)}
+.logo-wrap{width:52px;height:52px;border-radius:50%;overflow:hidden;border:2.5px solid var(--or);flex-shrink:0;box-shadow:0 0 0 3px rgba(252,88,2,.3)}
+.logo-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block}
 .hdrtitle h1{font-family:'Playfair Display',serif;font-size:21px;font-weight:900;color:#fff;line-height:1.1}
 .hdrtitle p{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
-.hdr-actions{margin-left:auto}
+.hdr-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn-feedback{background:transparent;border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;transition:.2s}
+.btn-feedback:hover{border-color:var(--or);color:var(--or)}
 .btn-beheer-open{background:var(--or);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;transition:.2s}
 .btn-beheer-open:hover{background:var(--or2)}
 
@@ -52,57 +56,118 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .sd-teller{text-align:right;flex-shrink:0}
 .sd-teller-n{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--or);line-height:1}
 .sd-teller-l{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px}
-.sd-body{padding:18px 20px 22px}
+.sd-body{padding:20px 20px 24px}
 .sd-geen{font-size:13px;color:var(--txt2);font-style:italic;padding:4px 0}
 
 /* ── TAFELS GRID ── */
-.tafels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.tafels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
 
-/* ── TAFELKAART ── */
+/* ── TAFELKAART – donkere speeltafel stijl ── */
 .tafelkaart{
-  background:var(--cr);border:1.5px solid var(--rnd);border-radius:14px;
-  padding:16px 12px 14px;cursor:pointer;transition:all .2s;text-align:center;position:relative;
+  background:var(--tafel-bg);
+  border:1.5px solid #3a2a18;
+  border-radius:16px;
+  padding:18px 14px 16px;
+  cursor:pointer;
+  transition:all .25s;
+  text-align:center;
+  position:relative;
 }
-.tafelkaart:hover{border-color:var(--or);background:#fff8f2;box-shadow:0 6px 20px rgba(252,88,2,.14)}
-.tafelkaart.sel{border-color:var(--or);background:#fff3e8;box-shadow:0 0 0 3px rgba(252,88,2,.2)}
-.tafelkaart.vol{opacity:.6;cursor:default}
-.tafelkaart.vol:hover{border-color:var(--rnd);background:var(--cr);box-shadow:none}
-.tk-vol{position:absolute;top:8px;right:8px;background:#c0392b;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.5px}
-.tk-naam{font-weight:700;font-size:15px;margin-bottom:2px}
-.tk-spel{font-size:12px;color:var(--or);font-weight:600;margin-bottom:12px;min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px}
+.tafelkaart:hover{border-color:#fc5802;box-shadow:0 8px 28px rgba(0,0,0,.4),0 0 0 2px rgba(252,88,2,.2)}
+.tafelkaart.sel{border-color:var(--or);box-shadow:0 0 0 3px rgba(252,88,2,.3),0 8px 28px rgba(0,0,0,.4)}
+.tafelkaart.vol{opacity:.55;cursor:default}
+.tafelkaart.vol:hover{border-color:#3a2a18;box-shadow:none}
+.tk-vol{position:absolute;top:9px;right:9px;background:#c0392b;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.5px}
+.tk-naam{font-weight:700;font-size:15px;color:#fff;margin-bottom:2px}
+.tk-spel{font-size:11px;color:var(--or);font-weight:600;margin-bottom:14px;min-height:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px}
 
-/* ── RONDE TAFEL – GROOT ── */
-.tafel-vis{position:relative;margin:0 auto 12px}
+/* ── RONDE TAFEL VISUALISATIE – speeltafelstijl ── */
+.tafel-vis{position:relative;margin:0 auto 14px}
+
+/* De groene tafel */
 .tafel-cirkel{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  border-radius:50%;background:var(--br);
+  border-radius:50%;
+  background:radial-gradient(circle at 38% 35%, #3a8a52, var(--tafel-groen) 55%, var(--tafel-groen2));
+  border:3px solid #1a4a2a;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  box-shadow:0 3px 14px rgba(50,36,36,.4);z-index:2;
+  box-shadow:inset 0 2px 12px rgba(0,0,0,.4), 0 4px 20px rgba(0,0,0,.5);
+  z-index:2;
 }
-.tk-uur{font-weight:800;color:#fff;line-height:1.1}
-.tk-uur-sub{color:rgba(255,255,255,.5);letter-spacing:.8px;margin-top:1px;text-transform:uppercase}
+.tk-uur{font-weight:800;color:#fff;line-height:1.1;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.tk-uur-sub{color:rgba(255,255,255,.45);letter-spacing:1px;margin-top:2px;text-transform:uppercase}
+
+/* Stoelen – donkere cirkels met stoelicoontje of naam */
 .stoel{
   position:absolute;border-radius:50%;
-  border:2.5px solid #c8b4a4;background:var(--wit);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  overflow:hidden;transition:all .2s;cursor:default;
+  transition:all .2s;cursor:default;
+  overflow:visible !important; /* naam mag buiten */
 }
-.stoel.vrij{background:var(--wit);border-color:#c8b4a4}
-.stoel.bezet{background:var(--br2);border-color:var(--br);color:#fff}
-.stoel.eigen{background:var(--grn);border-color:#1e6637;color:#fff}
-.stoel-init{font-weight:800;line-height:1.1;display:block}
+/* Lege stoel: donkere cirkel met stoelicoontje */
+.stoel.vrij{
+  background:radial-gradient(circle at 35% 30%, #5a3f28, var(--stoel-leeg));
+  border:2px solid #5a4030;
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+.stoel.vrij::after{
+  content:'🪑';
+  font-size:inherit;
+  opacity:.5;
+}
+/* Bezette stoel */
+.stoel.bezet{
+  background:radial-gradient(circle at 35% 30%, #6a5040, var(--stoel-bezet));
+  border:2px solid var(--or);
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+/* Eigen stoel */
+.stoel.eigen{
+  background:radial-gradient(circle at 35% 30%, #3da862, var(--grn));
+  border:2px solid #5dd882;
+  box-shadow:0 2px 8px rgba(0,0,0,.4),0 0 10px rgba(93,216,130,.3);
+}
+
+/* Naam label buiten de stoel */
+.stoel-label{
+  position:absolute;
+  top:calc(100% + 4px);
+  left:50%;transform:translateX(-50%);
+  white-space:nowrap;
+  background:rgba(20,12,4,.85);
+  color:#fff;
+  font-size:9px;
+  font-weight:600;
+  padding:2px 6px;
+  border-radius:4px;
+  pointer-events:none;
+  max-width:80px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  z-index:10;
+}
+.stoel-label .lbl-spel{
+  display:block;
+  color:var(--or);
+  font-size:8px;
+  font-weight:500;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.stoel-init{font-weight:800;line-height:1;display:block;color:#fff}
 .stoel-icon{line-height:1;display:block;margin-top:1px}
 
-.tk-beschikbaar{font-size:12px;color:var(--txt2);margin-bottom:8px}
-.tk-beschikbaar b{color:var(--grn);font-weight:700}
+.tk-beschikbaar{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px}
+.tk-beschikbaar b{color:#5dd882;font-weight:700}
 
-/* Ledenlijst */
-.tk-leden{display:flex;flex-direction:column;gap:3px;text-align:left;padding:0 4px}
-.tk-lid{font-size:11px;color:var(--txt2);display:flex;align-items:flex-start;gap:6px;line-height:1.35}
-.tk-lid-kleur{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:var(--br2);margin-top:3px}
-.tk-lid-kleur.eigen{background:var(--grn)}
-.tk-lid-naam{font-weight:600;color:var(--txt)}
-.tk-lid-spel{color:var(--txt2);font-style:italic}
+/* Ledenlijst onder tafel */
+.tk-leden{display:flex;flex-direction:column;gap:3px;text-align:left;padding:0 4px;margin-top:4px}
+.tk-lid{font-size:10px;color:rgba(255,255,255,.6);display:flex;align-items:flex-start;gap:6px;line-height:1.35}
+.tk-lid-kleur{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:#6a5040;margin-top:3px;border:1px solid var(--or)}
+.tk-lid-kleur.eigen{background:var(--grn);border-color:#5dd882}
+.tk-lid-naam{font-weight:600;color:rgba(255,255,255,.85)}
+.tk-lid-spel{color:var(--or);font-style:italic}
 
 /* ── RECHTER PANEEL ── */
 .formulier{background:var(--wit);border-left:1.5px solid var(--rnd);display:flex;flex-direction:column}
@@ -113,8 +178,7 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .tabs{display:flex;border:1.5px solid var(--rnd);border-radius:10px;overflow:hidden;margin-bottom:22px}
 .tab-btn{flex:1;padding:10px 8px;font-size:13px;font-weight:600;border:none;background:var(--cr);color:var(--txt2);transition:.2s;line-height:1.3}
 .tab-btn.actief{background:var(--or);color:#fff}
-.tab-pane{display:none}
-.tab-pane.actief{display:block}
+.tab-pane{display:none}.tab-pane.actief{display:block}
 
 .sel-box{background:var(--cr2);border:1.5px solid var(--or);border-radius:9px;padding:10px 13px;margin-bottom:16px;font-size:13px}
 .sel-box strong{color:var(--or);display:block;margin-bottom:2px}
@@ -130,11 +194,8 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
   font-size:14px;color:var(--txt);background:var(--cr);outline:none;transition:.2s;
 }
 .finput:focus,.fselect:focus,.ftextarea:focus{border-color:var(--or);background:var(--wit)}
-.ftextarea{resize:vertical;min-height:52px}
-
-/* Tweede naam veld (verborgen tenzij 2 personen) */
-.extra-naam{display:none;margin-top:8px}
-.extra-naam.zichtbaar{display:block}
+.ftextarea{resize:vertical;min-height:80px}
+.extra-naam{display:none;margin-top:8px}.extra-naam.zichtbaar{display:block}
 
 .speltags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .speltag{padding:5px 11px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid var(--rnd);background:var(--cr);transition:.2s}
@@ -173,10 +234,10 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .spinner{width:34px;height:34px;border:3px solid var(--rnd);border-top-color:var(--or);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── BEHEER MODAL ── */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(50,36,36,.6);z-index:500;align-items:center;justify-content:center}
+/* ── MODALS (beheer + feedback) ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(20,10,5,.7);z-index:500;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
-.modal{background:var(--wit);border-radius:16px;width:92%;max-width:520px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(50,36,36,.3)}
+.modal{background:var(--wit);border-radius:16px;width:92%;max-width:520px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(50,36,36,.35)}
 .modal-hdr{background:var(--br);color:#fff;padding:17px 22px;display:flex;align-items:center;justify-content:space-between}
 .modal-hdr h3{font-family:'Playfair Display',serif;font-size:17px}
 .modal-sluit{background:none;border:none;color:rgba(255,255,255,.7);font-size:24px;cursor:pointer;line-height:1;padding:0}
@@ -197,6 +258,11 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .btn-add{background:var(--or);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;transition:.2s;width:100%}
 .btn-add:hover{background:var(--or2)}
 
+/* Feedback succes */
+.feedback-ok{text-align:center;padding:20px 0;display:none}
+.feedback-ok .fb-icon{font-size:42px;margin-bottom:10px}
+.feedback-ok p{font-size:14px;color:var(--txt2)}
+
 @media(max-width:860px){
   .layout{grid-template-columns:1fr}
   .formulier{border-left:none;border-top:1.5px solid var(--rnd)}
@@ -207,13 +273,14 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 
 <header>
   <div class="logo-wrap">
-    <img src="logo.jpg" alt="De Spelmaeckers logo" onerror="this.style.background='#fc5802'">
+    <img src="logo.jpg" alt="De Spelmaeckers" onerror="this.style.display='none';this.parentNode.style.background='#fc5802'">
   </div>
   <div class="hdrtitle">
     <h1>De Spelmaeckers</h1>
     <p>Reserveer je plek</p>
   </div>
   <div class="hdr-actions">
+    <button class="btn-feedback" onclick="openFeedback()">💬 Suggestie / foutje</button>
     <button class="btn-beheer-open" onclick="openBeheer()">⚙ Beheer</button>
   </div>
 </header>
@@ -251,6 +318,15 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
         </div>
         <p id="sel-hint" style="font-size:13px;color:var(--txt2);margin-bottom:16px;font-style:italic">← Klik links op een tafel om aan te sluiten.</p>
 
+        <!-- AANTAL EERST -->
+        <div class="fsec">
+          <label class="flabel">Jullie komen met <em>*</em></label>
+          <div class="pers-rij">
+            <button class="pers-btn actief" data-n="1" onclick="kiesPersonen('a',1)">1</button>
+            <button class="pers-btn" data-n="2" onclick="kiesPersonen('a',2)">2</button>
+          </div>
+        </div>
+        <!-- NAMEN -->
         <div class="fsec">
           <label class="flabel">Jouw naam <em>*</em></label>
           <input class="finput" id="a-naam" type="text" placeholder="Voornaam en naam" autocomplete="name">
@@ -261,13 +337,6 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
         <div class="fsec">
           <label class="flabel">E-mail <span class="flabel-opt">(optioneel – ontvang melding als iemand aansluit)</span></label>
           <input class="finput" id="a-email" type="email" placeholder="jouw@email.be">
-        </div>
-        <div class="fsec">
-          <label class="flabel">Jullie komen met <em>*</em></label>
-          <div class="pers-rij">
-            <button class="pers-btn actief" data-n="1" onclick="kiesPersonen('a',1)">1</button>
-            <button class="pers-btn" data-n="2" onclick="kiesPersonen('a',2)">2</button>
-          </div>
         </div>
         <div class="fsec">
           <label class="flabel">Spelcategorie</label>
@@ -291,16 +360,14 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
       <div class="tab-pane" id="pane-nieuw">
         <div class="fsec">
           <label class="flabel">Speldag <em>*</em></label>
-          <select class="fselect" id="n-speldag">
-            <option value="">– Kies een speldag –</option>
-          </select>
+          <select class="fselect" id="n-speldag"><option value="">– Kies een speldag –</option></select>
         </div>
         <div class="fsec">
           <label class="flabel">Naam van je tafel <em>*</em></label>
           <input class="finput" id="n-tafelnaam" type="text" placeholder="bv. Rustige strategie, Snelle partyspellen…">
         </div>
         <div class="fsec">
-          <label class="flabel">Startuur van jouw tafel <em>*</em></label>
+          <label class="flabel">Startuur <em>*</em></label>
           <input class="finput" id="n-startuur" type="time" value="20:00">
         </div>
         <div class="fsec">
@@ -328,6 +395,14 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
           </div>
           <input class="finput" id="n-speltitel" type="text" placeholder="Specifieke speltitel (optioneel)" style="margin-top:8px">
         </div>
+        <!-- AANTAL EERST, dan namen -->
+        <div class="fsec">
+          <label class="flabel">Jullie komen met <em>*</em></label>
+          <div class="pers-rij">
+            <button class="pers-btn actief" data-n="1" onclick="kiesPersonen('n',1)">1</button>
+            <button class="pers-btn" data-n="2" onclick="kiesPersonen('n',2)">2</button>
+          </div>
+        </div>
         <div class="fsec">
           <label class="flabel">Jouw naam <em>*</em></label>
           <input class="finput" id="n-naam" type="text" placeholder="Voornaam en naam" autocomplete="name">
@@ -338,13 +413,6 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
         <div class="fsec">
           <label class="flabel">E-mail <span class="flabel-opt">(optioneel – ontvang melding als iemand aansluit)</span></label>
           <input class="finput" id="n-email" type="email" placeholder="jouw@email.be">
-        </div>
-        <div class="fsec">
-          <label class="flabel">Jullie komen met <em>*</em></label>
-          <div class="pers-rij">
-            <button class="pers-btn actief" data-n="1" onclick="kiesPersonen('n',1)">1</button>
-            <button class="pers-btn" data-n="2" onclick="kiesPersonen('n',2)">2</button>
-          </div>
         </div>
         <div id="n-fout" class="fout-box" style="display:none"></div>
         <button class="btn-submit" onclick="doeNieuweTafel()">➕ Tafel aanmaken & inschrijven</button>
@@ -398,6 +466,37 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
   </div>
 </div>
 
+<!-- ── FEEDBACK MODAL ── -->
+<div class="modal-overlay" id="feedback-modal" onclick="if(event.target===this)sluitFeedback()">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-hdr">
+      <h3>💬 Suggestie of foutje melden</h3>
+      <button class="modal-sluit" onclick="sluitFeedback()">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="feedback-form-wrap">
+        <p style="font-size:13px;color:var(--txt2);margin-bottom:16px;line-height:1.6">
+          Heb je een suggestie voor verbetering of heb je een foutje ontdekt? Laat het ons weten!
+        </p>
+        <div class="fsec">
+          <label class="flabel">Jouw naam <span class="flabel-opt">(optioneel)</span></label>
+          <input class="finput" id="fb-naam" type="text" placeholder="Voornaam">
+        </div>
+        <div class="fsec">
+          <label class="flabel">Jouw bericht <em>*</em></label>
+          <textarea class="ftextarea" id="fb-bericht" placeholder="Schrijf hier je suggestie of beschrijf het foutje…"></textarea>
+        </div>
+        <div id="fb-fout" class="fout-box" style="display:none"></div>
+        <button class="btn-submit" onclick="stuurFeedback()">📨 Verstuur bericht</button>
+      </div>
+      <div class="feedback-ok" id="feedback-ok">
+        <div class="fb-icon">✅</div>
+        <p><strong>Bedankt!</strong><br>Je bericht is verstuurd naar De Spelmaeckers.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 const API_URL   = 'https://script.google.com/macros/s/AKfycby-nQyuJqkQNazPqFtUEqrfr_MB5-u3HRGvI368DPsZx_CBQ-WIJ9x3l-r9axAoyvf7ow/exec';
 const BEHEER_WW = 'spelmaeckers2025';
@@ -411,8 +510,8 @@ const SPEL_ICONS = {
 let S = {
   speldagen:[], tafels:[], reservaties:[],
   gekozenTafelId:null, gekozenSpeldagId:null,
-  aantalA:1, spelA:null, spelTitelA:'',
-  aantalN:1, spelN:null, spelTitelN:'', maxStoelen:5,
+  aantalA:1, spelA:null,
+  aantalN:1, spelN:null, maxStoelen:5,
   mijnId: sessionStorage.getItem('mijnId') || null
 };
 
@@ -421,10 +520,7 @@ async function init() {
   const p = new URLSearchParams(location.search);
   await laadData();
   if (p.get('tafel') && p.get('dag')) {
-    setTimeout(() => {
-      wisselTab('aansluiten');
-      selecteerTafel(p.get('tafel'), p.get('dag'));
-    }, 400);
+    setTimeout(()=>{ wisselTab('aansluiten'); selecteerTafel(p.get('tafel'),p.get('dag')); }, 400);
   }
 }
 
@@ -435,37 +531,31 @@ async function laadData() {
     if (d.fout) throw new Error(d.fout);
     S.speldagen   = d.speldagen   || [];
     S.tafels      = d.tafels      || [];
-    S.reservaties = (d.reservaties||[]).filter(r => r.status !== 'geannuleerd');
+    S.reservaties = (d.reservaties||[]).filter(r=>r.status!=='geannuleerd');
     renderAlles();
   } catch(e) {
-    document.getElementById('speldagen-container').innerHTML =
+    document.getElementById('speldagen-container').innerHTML=
       `<div class="fout-box">⚠️ Kon data niet laden.<br><small>${e.message}</small></div>`;
   }
 }
 
 // ── RENDER ────────────────────────────────────────────────────
-function renderAlles() { renderSpeldagen(); vulSpeldagDropdown(); }
+function renderAlles(){ renderSpeldagen(); vulSpeldagDropdown(); }
 
-function renderSpeldagen() {
-  const nu = new Date(); nu.setHours(0,0,0,0);
-  const komend = S.speldagen
-    .filter(d => new Date(d.datum) >= nu)
-    .sort((a,b) => new Date(a.datum)-new Date(b.datum));
-  document.getElementById('badge-count').textContent =
-    komend.length + ' dag' + (komend.length!==1?'en':'');
-  const c = document.getElementById('speldagen-container');
-  if (!komend.length) {
-    c.innerHTML='<p style="color:var(--txt2);font-size:14px">Nog geen speldagen ingepland.</p>';
-    return;
-  }
-  c.innerHTML = komend.map(d => renderSpeldag(d)).join('');
+function renderSpeldagen(){
+  const nu=new Date(); nu.setHours(0,0,0,0);
+  const komend=S.speldagen.filter(d=>new Date(d.datum)>=nu).sort((a,b)=>new Date(a.datum)-new Date(b.datum));
+  document.getElementById('badge-count').textContent=komend.length+' dag'+(komend.length!==1?'en':'');
+  const c=document.getElementById('speldagen-container');
+  if(!komend.length){c.innerHTML='<p style="color:var(--txt2);font-size:14px">Nog geen speldagen ingepland.</p>';return;}
+  c.innerHTML=komend.map(d=>renderSpeldag(d)).join('');
 }
 
-function renderSpeldag(dag) {
-  const tafels = S.tafels.filter(t => t.speldagId == dag.id);
-  const tafelsHtml = tafels.length
-    ? `<div class="tafels-grid">${tafels.map(t => renderTafelKaart(t, dag)).join('')}</div>`
-    : `<p class="sd-geen">Nog geen tafels aangemaakt – wees de eerste via het formulier →</p>`;
+function renderSpeldag(dag){
+  const tafels=S.tafels.filter(t=>t.speldagId==dag.id);
+  const body=tafels.length
+    ?`<div class="tafels-grid">${tafels.map(t=>renderTafelKaart(t,dag)).join('')}</div>`
+    :`<p class="sd-geen">Nog geen tafels – wees de eerste via het formulier →</p>`;
   return `<div class="speldag" id="dag-${dag.id}">
     <div class="sd-header">
       <div class="sd-datumblok">
@@ -473,85 +563,85 @@ function renderSpeldag(dag) {
         <div class="sd-locatie">📍 ${esc(dag.locatie||'')}</div>
         <div class="sd-uren">🕐 ${esc(formatUur(dag.startuur))} – ${esc(formatUur(dag.einduur))}</div>
       </div>
-      <div class="sd-teller">
-        <div class="sd-teller-n">${tafels.length}</div>
-        <div class="sd-teller-l">tafels</div>
-      </div>
+      <div class="sd-teller"><div class="sd-teller-n">${tafels.length}</div><div class="sd-teller-l">tafels</div></div>
     </div>
-    <div class="sd-body">${tafelsHtml}</div>
+    <div class="sd-body">${body}</div>
   </div>`;
 }
 
-function renderTafelKaart(tafel, dag) {
-  const res   = S.reservaties.filter(r => r.tafelId == tafel.id);
-  const bezet = res.reduce((s,r) => s+Number(r.aantalPersonen||1), 0);
+function renderTafelKaart(tafel, dag){
+  const res   = S.reservaties.filter(r=>r.tafelId==tafel.id);
+  const bezet = res.reduce((s,r)=>s+Number(r.aantalPersonen||1),0);
   const max   = Number(tafel.maxStoelen)||6;
-  const vrij  = Math.max(0, max-bezet);
-  const isVol = vrij === 0;
-  const isSel = S.gekozenTafelId == tafel.id;
-  const klas  = ['tafelkaart', isSel?'sel':'', isVol?'vol':''].join(' ').trim();
-  const onclick = isVol ? '' : `onclick="selecteerTafel('${tafel.id}','${dag.id}')"`;
-
-  // Toon spelcategorie + eventuele speltitel
-  const spelLabel = [tafel.spelvoorkeur, tafel.speltitel].filter(Boolean).join(' · ');
-
+  const vrij  = Math.max(0,max-bezet);
+  const isVol = vrij===0;
+  const isSel = S.gekozenTafelId==tafel.id;
+  const klas  = ['tafelkaart',isSel?'sel':'',isVol?'vol':''].join(' ').trim();
+  const onclick= isVol?'': `onclick="selecteerTafel('${tafel.id}','${dag.id}')"`;
+  const spelLabel=[tafel.spelvoorkeur,tafel.speltitel].filter(Boolean).join(' · ');
   return `<div class="${klas}" id="tk-${tafel.id}" ${onclick}>
-    ${isVol ? '<span class="tk-vol">VOL</span>' : ''}
+    ${isVol?'<span class="tk-vol">VOL</span>':''}
     <div class="tk-naam">${esc(tafel.naam)}</div>
     <div class="tk-spel">${esc(spelLabel)}</div>
-    ${renderTafelVis(tafel, dag, res, max)}
+    ${renderTafelVis(tafel,dag,res,max)}
     <div class="tk-beschikbaar"><b>${vrij}</b> / ${max} vrije plekken</div>
     ${renderLedenLijst(res)}
   </div>`;
 }
 
-// ── TAFEL VISUALISATIE (GROOT) ────────────────────────────────
-function renderTafelVis(tafel, dag, res, max) {
-  // Schaal op basis van aantal stoelen
-  const visGrootte = Math.max(170, 120 + max * 14);
-  const mid        = visGrootte / 2;
-  const tafelR     = Math.round(visGrootte * 0.18);  // tafel cirkel radius
-  const stoelR     = Math.round(visGrootte * 0.11);  // stoel radius
-  const orbitR     = Math.round(visGrootte * 0.36);  // afstand tot centrum
+// ── TAFEL VISUALISATIE ────────────────────────────────────────
+function renderTafelVis(tafel, dag, res, max){
+  // Grootte op basis van aantal stoelen
+  const VIS   = Math.max(190, 140 + max * 16);
+  const MID   = VIS / 2;
+  const TR    = Math.round(VIS * 0.20);   // tafel radius
+  const SR    = Math.round(VIS * 0.115);  // stoel radius
+  const OR    = Math.round(VIS * 0.375);  // orbit radius
 
+  // Bouw bezette stoelen
   let stoelen = [];
-  res.forEach(r => {
-    const n = Number(r.aantalPersonen)||1;
-    // Toon medespeler apart als naam2 beschikbaar
-    stoelen.push({naam:r.naam, naam2:r.naam2||'', spel:r.spelvoorkeur, titel:r.speltitel||'', eigen:r.id===S.mijnId});
-    if (n === 2) stoelen.push({naam:r.naam2||r.naam+' (+1)', spel:r.spelvoorkeur, titel:r.speltitel||'', eigen:r.id===S.mijnId, isPartner:true});
+  res.forEach(r=>{
+    const n=Number(r.aantalPersonen)||1;
+    stoelen.push({naam:r.naam, naam2:r.naam2||'', spel:r.spelvoorkeur, titel:r.speltitel||'', eigen:r.id===S.mijnId, partner:false});
+    if(n===2) stoelen.push({naam:r.naam2||r.naam, spel:r.spelvoorkeur, titel:r.speltitel||'', eigen:r.id===S.mijnId, partner:true});
   });
-  while (stoelen.length < max) stoelen.push(null);
-  stoelen = stoelen.slice(0, max);
+  while(stoelen.length<max) stoelen.push(null);
+  stoelen=stoelen.slice(0,max);
 
   const uur = formatUur(tafel.startuur) || formatUur(dag?.startuur) || '';
+  const SD = SR*2; // stoel diameter
 
-  const stoelHtml = stoelen.map((s,i) => {
-    const hoek = (i * (360/max) - 90) * Math.PI / 180;
-    const cx   = Math.round(mid + orbitR * Math.cos(hoek));
-    const cy   = Math.round(mid + orbitR * Math.sin(hoek));
-    const x    = cx - stoelR;
-    const y    = cy - stoelR;
-    const d    = stoelR * 2;
-    const klas = !s ? 'vrij' : (s.eigen||s.isPartner) ? 'eigen' : 'bezet';
-    const init = s ? (s.isPartner ? initialen(s.naam) : initialen(s.naam)) : '';
-    const icon = s && s.spel ? (SPEL_ICONS[s.spel]||'') : '';
-    const titleTxt = s
-      ? `${s.naam}${s.isPartner?' (medespeler)':''}${s.spel?' · '+s.spel:''}${s.titel?' · '+s.titel:''}`
-      : 'Vrije plek';
-    const fs   = Math.round(stoelR * 0.45);
-    const ifs  = Math.round(stoelR * 0.38);
-    return `<div class="stoel ${klas}" style="left:${x}px;top:${y}px;width:${d}px;height:${d}px" title="${esc(titleTxt)}">
+  const stoelHtml = stoelen.map((s,i)=>{
+    const hoek=(i*(360/max)-90)*Math.PI/180;
+    const cx=Math.round(MID+OR*Math.cos(hoek));
+    const cy=Math.round(MID+OR*Math.sin(hoek));
+    const x=cx-SR; const y=cy-SR;
+    if(!s){
+      // Lege stoel: enkel de cirkel met stoelicoontje via CSS ::after
+      const fs=Math.round(SR*0.55);
+      return `<div class="stoel vrij" style="left:${x}px;top:${y}px;width:${SD}px;height:${SD}px;font-size:${fs}px" title="Vrije plek"></div>`;
+    }
+    const klas = s.eigen||s.partner ? 'eigen' : 'bezet';
+    const init = initialen(s.naam);
+    const icon = s.spel?(SPEL_ICONS[s.spel]||''):'';
+    const fs   = Math.round(SR*0.45);
+    const ifs  = Math.round(SR*0.36);
+    const naamLabel = s.partner ? (s.naam||'partner') : s.naam;
+    const spelLabel = [s.spel,s.titel].filter(Boolean).join(' · ');
+    return `<div class="stoel ${klas}" style="left:${x}px;top:${y}px;width:${SD}px;height:${SD}px" title="${esc(naamLabel+(spelLabel?' – '+spelLabel:''))}">
       <span class="stoel-init" style="font-size:${fs}px">${init}</span>
       ${icon?`<span class="stoel-icon" style="font-size:${ifs}px">${icon}</span>`:''}
+      <div class="stoel-label">
+        ${esc(naamLabel.length>10?naamLabel.slice(0,9)+'…':naamLabel)}
+        ${spelLabel?`<span class="lbl-spel">${esc(spelLabel.length>12?spelLabel.slice(0,11)+'…':spelLabel)}</span>`:''}
+      </div>
     </div>`;
   }).join('');
 
-  const tfs  = Math.round(tafelR * 0.55);
-  const tsfs = Math.round(tafelR * 0.3);
-
-  return `<div class="tafel-vis" style="width:${visGrootte}px;height:${visGrootte}px">
-    <div class="tafel-cirkel" style="width:${tafelR*2}px;height:${tafelR*2}px">
+  const tfs  = Math.round(TR*0.58);
+  const tsfs = Math.round(TR*0.28);
+  return `<div class="tafel-vis" style="width:${VIS}px;height:${VIS}px">
+    <div class="tafel-cirkel" style="width:${TR*2}px;height:${TR*2}px">
       <span class="tk-uur" style="font-size:${tfs}px">${esc(uur)}</span>
       <span class="tk-uur-sub" style="font-size:${tsfs}px">start</span>
     </div>
@@ -559,195 +649,150 @@ function renderTafelVis(tafel, dag, res, max) {
   </div>`;
 }
 
-function renderLedenLijst(res) {
-  if (!res.length) return '';
-  const items = res.map(r => {
-    const eigen    = r.id === S.mijnId;
-    const n        = Number(r.aantalPersonen)||1;
-    const spelTxt  = [r.spelvoorkeur, r.speltitel].filter(Boolean).join(' · ');
-    const naamTxt  = n===2 && r.naam2 ? `${r.naam} & ${r.naam2}` : n===2 ? `${r.naam} (+1)` : r.naam;
+function renderLedenLijst(res){
+  if(!res.length) return '';
+  return `<div class="tk-leden">${res.map(r=>{
+    const eigen=r.id===S.mijnId;
+    const n=Number(r.aantalPersonen)||1;
+    const spelTxt=[r.spelvoorkeur,r.speltitel].filter(Boolean).join(' · ');
+    const naamTxt=n===2&&r.naam2?`${r.naam} & ${r.naam2}`:n===2?`${r.naam} (+1)`:r.naam;
     return `<div class="tk-lid">
       <span class="tk-lid-kleur${eigen?' eigen':''}"></span>
       <span><span class="tk-lid-naam">${esc(naamTxt)}</span>${spelTxt?` <span class="tk-lid-spel">– ${esc(spelTxt)}</span>`:''}
-      </span>
-    </div>`;
-  });
-  return `<div class="tk-leden">${items.join('')}</div>`;
+      </span></div>`;
+  }).join('')}</div>`;
 }
 
-function vulSpeldagDropdown() {
-  const sel = document.getElementById('n-speldag');
-  const nu = new Date(); nu.setHours(0,0,0,0);
-  const komend = S.speldagen
-    .filter(d => new Date(d.datum) >= nu)
-    .sort((a,b) => new Date(a.datum)-new Date(b.datum));
-  sel.innerHTML = '<option value="">– Kies een speldag –</option>' +
-    komend.map(d =>
-      `<option value="${d.id}">${formatDatum(d.datum)} – ${d.locatie||''} (${formatUur(d.startuur)}–${formatUur(d.einduur)})</option>`
-    ).join('');
+function vulSpeldagDropdown(){
+  const sel=document.getElementById('n-speldag');
+  const nu=new Date();nu.setHours(0,0,0,0);
+  const komend=S.speldagen.filter(d=>new Date(d.datum)>=nu).sort((a,b)=>new Date(a.datum)-new Date(b.datum));
+  sel.innerHTML='<option value="">– Kies een speldag –</option>'+
+    komend.map(d=>`<option value="${d.id}">${formatDatum(d.datum)} – ${d.locatie||''} (${formatUur(d.startuur)}–${formatUur(d.einduur)})</option>`).join('');
 }
 
 // ── INTERACTIE ────────────────────────────────────────────────
-function selecteerTafel(tafelId, speldagId) {
-  const tafel = S.tafels.find(t=>t.id==tafelId);
-  const dag   = S.speldagen.find(d=>d.id==speldagId);
-  if (!tafel||!dag) return;
+function selecteerTafel(tafelId,speldagId){
+  const tafel=S.tafels.find(t=>t.id==tafelId);
+  const dag=S.speldagen.find(d=>d.id==speldagId);
+  if(!tafel||!dag) return;
   wisselTab('aansluiten');
   document.querySelectorAll('.tafelkaart.sel').forEach(el=>el.classList.remove('sel'));
-  const el = document.getElementById('tk-'+tafelId);
-  if (el) el.classList.add('sel');
-  S.gekozenTafelId   = String(tafelId);
-  S.gekozenSpeldagId = String(speldagId);
-  document.getElementById('sel-box').style.display = 'block';
-  document.getElementById('sel-hint').style.display = 'none';
-  document.getElementById('sel-tafel-naam').textContent =
-    tafel.naam + (tafel.spelvoorkeur ? ' – '+tafel.spelvoorkeur : '');
-  document.getElementById('sel-dag-info').textContent =
-    formatDatum(dag.datum)+' · '+(dag.locatie||'')+' · '+formatUur(dag.startuur)+'–'+formatUur(dag.einduur);
+  const el=document.getElementById('tk-'+tafelId);
+  if(el) el.classList.add('sel');
+  S.gekozenTafelId=String(tafelId); S.gekozenSpeldagId=String(speldagId);
+  document.getElementById('sel-box').style.display='block';
+  document.getElementById('sel-hint').style.display='none';
+  document.getElementById('sel-tafel-naam').textContent=tafel.naam+(tafel.spelvoorkeur?' – '+tafel.spelvoorkeur:'');
+  document.getElementById('sel-dag-info').textContent=formatDatum(dag.datum)+' · '+(dag.locatie||'')+' · '+formatUur(dag.startuur)+'–'+formatUur(dag.einduur);
   verbergFout('a');
 }
 
-function deselecteer() {
-  S.gekozenTafelId=null; S.gekozenSpeldagId=null;
+function deselecteer(){
+  S.gekozenTafelId=null;S.gekozenSpeldagId=null;
   document.querySelectorAll('.tafelkaart.sel').forEach(el=>el.classList.remove('sel'));
   document.getElementById('sel-box').style.display='none';
   document.getElementById('sel-hint').style.display='block';
 }
 
-function wisselTab(tab) {
-  ['aansluiten','nieuw'].forEach(t => {
+function wisselTab(tab){
+  ['aansluiten','nieuw'].forEach(t=>{
     document.getElementById('tab-'+t).classList.toggle('actief',t===tab);
     document.getElementById('pane-'+t).classList.toggle('actief',t===tab);
   });
 }
 
-function kiesPersonen(prefix, n) {
-  if (prefix==='a') S.aantalA=n; else S.aantalN=n;
-  const pane = prefix==='a' ? 'pane-aansluiten' : 'pane-nieuw';
-  document.querySelectorAll(`#${pane} .pers-btn`)
-    .forEach(b => b.classList.toggle('actief', Number(b.dataset.n)===n));
-  // Toon/verberg tweede naamveld
-  const wrap = document.getElementById(prefix+'-naam2-wrap');
-  if (wrap) wrap.classList.toggle('zichtbaar', n===2);
+function kiesPersonen(prefix,n){
+  if(prefix==='a') S.aantalA=n; else S.aantalN=n;
+  const pane=prefix==='a'?'pane-aansluiten':'pane-nieuw';
+  document.querySelectorAll(`#${pane} .pers-btn`).forEach(b=>b.classList.toggle('actief',Number(b.dataset.n)===n));
+  const wrap=document.getElementById(prefix+'-naam2-wrap');
+  if(wrap) wrap.classList.toggle('zichtbaar',n===2);
 }
 
-function toggleSpel(prefix, el, val) {
-  const wasActief = el.classList.contains('actief');
-  document.getElementById(prefix+'-speltags').querySelectorAll('.speltag')
-    .forEach(b=>b.classList.remove('actief'));
-  if (!wasActief) {
-    el.classList.add('actief');
-    if (prefix==='a') S.spelA=val; else S.spelN=val;
-  } else {
-    if (prefix==='a') S.spelA=null; else S.spelN=null;
-  }
+function toggleSpel(prefix,el,val){
+  const wasActief=el.classList.contains('actief');
+  document.getElementById(prefix+'-speltags').querySelectorAll('.speltag').forEach(b=>b.classList.remove('actief'));
+  if(!wasActief){el.classList.add('actief'); if(prefix==='a')S.spelA=val;else S.spelN=val;}
+  else{if(prefix==='a')S.spelA=null;else S.spelN=null;}
 }
 
-function kiesMaxStoelen(n) {
+function kiesMaxStoelen(n){
   S.maxStoelen=n;
   document.querySelectorAll('.st-btn').forEach(b=>b.classList.toggle('actief',Number(b.dataset.n)===n));
 }
 
 // ── AANSLUITEN ────────────────────────────────────────────────
-async function doeAansluiten() {
+async function doeAansluiten(){
   verbergFout('a');
-  const naam      = document.getElementById('a-naam').value.trim();
-  const naam2     = document.getElementById('a-naam2').value.trim();
-  const email     = document.getElementById('a-email').value.trim();
-  const speltitel = document.getElementById('a-speltitel').value.trim();
-  if (!naam)              return toonFout('a','Vul je naam in.');
-  if (S.aantalA===2 && !naam2) return toonFout('a','Vul ook de naam van je medespeler in.');
-  if (!S.gekozenTafelId) return toonFout('a','Kies eerst een tafel links.');
-
-  const tafel = S.tafels.find(t=>t.id==S.gekozenTafelId);
-  const res   = S.reservaties.filter(r=>r.tafelId==S.gekozenTafelId);
-  const bezet = res.reduce((s,r)=>s+Number(r.aantalPersonen||1),0);
-  const vrij  = (Number(tafel?.maxStoelen)||6)-bezet;
-  if (vrij < S.aantalA) return toonFout('a',`Nog maar ${vrij} vrije plek(ken) aan deze tafel.`);
-
-  const btn = event.target; btn.disabled=true; btn.textContent='⏳ Bezig…';
-  try {
-    const p = new URLSearchParams({
-      actie:'reserveer', naam, naam2, email,
-      speldagId:S.gekozenSpeldagId, tafelId:S.gekozenTafelId,
-      aantalPersonen:S.aantalA, spelvoorkeur:S.spelA||'', speltitel, opmerking:''
-    });
-    const d = await apiGet(p);
-    if (d.fout) throw new Error(d.fout);
+  const naam=document.getElementById('a-naam').value.trim();
+  const naam2=document.getElementById('a-naam2').value.trim();
+  const email=document.getElementById('a-email').value.trim();
+  const speltitel=document.getElementById('a-speltitel').value.trim();
+  if(!naam) return toonFout('a','Vul je naam in.');
+  if(S.aantalA===2&&!naam2) return toonFout('a','Vul ook de naam van je medespeler in.');
+  if(!S.gekozenTafelId) return toonFout('a','Kies eerst een tafel links.');
+  const tafel=S.tafels.find(t=>t.id==S.gekozenTafelId);
+  const res=S.reservaties.filter(r=>r.tafelId==S.gekozenTafelId);
+  const bezet=res.reduce((s,r)=>s+Number(r.aantalPersonen||1),0);
+  const vrij=(Number(tafel?.maxStoelen)||6)-bezet;
+  if(vrij<S.aantalA) return toonFout('a',`Nog maar ${vrij} vrije plek(ken) aan deze tafel.`);
+  const btn=event.target; btn.disabled=true; btn.textContent='⏳ Bezig…';
+  try{
+    const p=new URLSearchParams({actie:'reserveer',naam,naam2,email,speldagId:S.gekozenSpeldagId,tafelId:S.gekozenTafelId,aantalPersonen:S.aantalA,spelvoorkeur:S.spelA||'',speltitel,opmerking:''});
+    const d=await apiGet(p); if(d.fout) throw new Error(d.fout);
     S.mijnId=d.id; sessionStorage.setItem('mijnId',d.id);
     await laadData();
-    toonSucces('Je hebt aangesloten!',
-      `Je plek aan "${tafel?.naam}" is gereserveerd. Deel de link zodat anderen ook aansluiten.`,
-      S.gekozenTafelId, S.gekozenSpeldagId);
-  } catch(e) { toonFout('a','Fout: '+e.message); }
-  finally { btn.disabled=false; btn.textContent='🪑 Aansluiten bij tafel'; }
+    toonSucces('Je hebt aangesloten!',`Je plek aan "${tafel?.naam}" is gereserveerd.`,S.gekozenTafelId,S.gekozenSpeldagId);
+  }catch(e){toonFout('a','Fout: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='🪑 Aansluiten bij tafel';}
 }
 
 // ── NIEUWE TAFEL ──────────────────────────────────────────────
-async function doeNieuweTafel() {
+async function doeNieuweTafel(){
   verbergFout('n');
-  const speldagId  = document.getElementById('n-speldag').value;
-  const tafelnaam  = document.getElementById('n-tafelnaam').value.trim();
-  const startuur   = document.getElementById('n-startuur').value;
-  const naam       = document.getElementById('n-naam').value.trim();
-  const naam2      = document.getElementById('n-naam2').value.trim();
-  const email      = document.getElementById('n-email').value.trim();
-  const speltitel  = document.getElementById('n-speltitel').value.trim();
-  if (!speldagId) return toonFout('n','Kies een speldag.');
-  if (!tafelnaam) return toonFout('n','Geef je tafel een naam.');
-  if (!startuur)  return toonFout('n','Vul het startuur in.');
-  if (!naam)      return toonFout('n','Vul je naam in.');
-  if (S.aantalN===2 && !naam2) return toonFout('n','Vul ook de naam van je medespeler in.');
-
-  const btn = event.target; btn.disabled=true; btn.textContent='⏳ Bezig…';
-  try {
-    const p1 = new URLSearchParams({
-      actie:'addTafel', speldagId, naam:tafelnaam,
-      maxStoelen:S.maxStoelen, spelvoorkeur:S.spelN||'', speltitel, startuur
-    });
-    const d1 = await apiGet(p1);
-    if (d1.fout) throw new Error(d1.fout);
-
-    const p2 = new URLSearchParams({
-      actie:'reserveer', naam, naam2, email,
-      speldagId, tafelId:d1.id,
-      aantalPersonen:S.aantalN, spelvoorkeur:S.spelN||'', speltitel, opmerking:''
-    });
-    const d2 = await apiGet(p2);
-    if (d2.fout) throw new Error(d2.fout);
-
+  const speldagId=document.getElementById('n-speldag').value;
+  const tafelnaam=document.getElementById('n-tafelnaam').value.trim();
+  const startuur=document.getElementById('n-startuur').value;
+  const naam=document.getElementById('n-naam').value.trim();
+  const naam2=document.getElementById('n-naam2').value.trim();
+  const email=document.getElementById('n-email').value.trim();
+  const speltitel=document.getElementById('n-speltitel').value.trim();
+  if(!speldagId) return toonFout('n','Kies een speldag.');
+  if(!tafelnaam) return toonFout('n','Geef je tafel een naam.');
+  if(!startuur)  return toonFout('n','Vul het startuur in.');
+  if(!naam)      return toonFout('n','Vul je naam in.');
+  if(S.aantalN===2&&!naam2) return toonFout('n','Vul ook de naam van je medespeler in.');
+  const btn=event.target; btn.disabled=true; btn.textContent='⏳ Bezig…';
+  try{
+    const d1=await apiGet(new URLSearchParams({actie:'addTafel',speldagId,naam:tafelnaam,maxStoelen:S.maxStoelen,spelvoorkeur:S.spelN||'',speltitel,startuur}));
+    if(d1.fout) throw new Error(d1.fout);
+    const d2=await apiGet(new URLSearchParams({actie:'reserveer',naam,naam2,email,speldagId,tafelId:d1.id,aantalPersonen:S.aantalN,spelvoorkeur:S.spelN||'',speltitel,opmerking:''}));
+    if(d2.fout) throw new Error(d2.fout);
     S.mijnId=d2.id; sessionStorage.setItem('mijnId',d2.id);
     await laadData();
-    toonSucces('Tafel aangemaakt!',
-      `Jouw tafel "${tafelnaam}" is aangemaakt. Deel de link zodat anderen aansluiten.`,
-      d1.id, speldagId);
-  } catch(e) { toonFout('n','Fout: '+e.message); }
-  finally { btn.disabled=false; btn.textContent='➕ Tafel aanmaken & inschrijven'; }
+    toonSucces('Tafel aangemaakt!',`Jouw tafel "${tafelnaam}" is klaar. Deel de link zodat anderen aansluiten.`,d1.id,speldagId);
+  }catch(e){toonFout('n','Fout: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='➕ Tafel aanmaken & inschrijven';}
 }
 
 // ── SUCCES ────────────────────────────────────────────────────
-function toonSucces(titel, tekst, tafelId, speldagId) {
+function toonSucces(titel,tekst,tafelId,speldagId){
   document.getElementById('form-paneel').style.display='none';
   document.getElementById('succes-scherm').classList.add('zichtbaar');
   document.getElementById('succes-titel').textContent=titel;
   document.getElementById('succes-tekst').textContent=tekst;
-  const base=location.href.split('?')[0];
-  document.getElementById('deel-url').textContent=`${base}?tafel=${tafelId}&dag=${speldagId}`;
+  document.getElementById('deel-url').textContent=`${location.href.split('?')[0]}?tafel=${tafelId}&dag=${speldagId}`;
 }
-
-function kopieerLink() {
+function kopieerLink(){
   navigator.clipboard.writeText(document.getElementById('deel-url').textContent).then(()=>{
-    const b=document.querySelector('.btn-kop');
-    b.textContent='✅ Gekopieerd!';
+    const b=document.querySelector('.btn-kop'); b.textContent='✅ Gekopieerd!';
     setTimeout(()=>b.textContent='📋 Kopieer link',2000);
   });
 }
-
-function nieuweInschrijving() {
-  S.gekozenTafelId=null; S.gekozenSpeldagId=null;
-  S.spelA=null; S.spelN=null; S.aantalA=1; S.aantalN=1;
-  ['a-naam','a-naam2','a-email','a-speltitel','n-naam','n-naam2','n-email','n-tafelnaam','n-speltitel']
-    .forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+function nieuweInschrijving(){
+  S.gekozenTafelId=null;S.gekozenSpeldagId=null;S.spelA=null;S.spelN=null;S.aantalA=1;S.aantalN=1;
+  ['a-naam','a-naam2','a-email','a-speltitel','n-naam','n-naam2','n-email','n-tafelnaam','n-speltitel'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('n-speldag').value='';
   document.querySelectorAll('.speltag').forEach(b=>b.classList.remove('actief'));
   document.querySelectorAll('.pers-btn').forEach(b=>b.classList.toggle('actief',b.dataset.n==='1'));
@@ -760,24 +805,48 @@ function nieuweInschrijving() {
   wisselTab('aansluiten');
 }
 
+// ── FEEDBACK ──────────────────────────────────────────────────
+function openFeedback(){
+  document.getElementById('feedback-form-wrap').style.display='block';
+  document.getElementById('feedback-ok').style.display='none';
+  document.getElementById('fb-naam').value='';
+  document.getElementById('fb-bericht').value='';
+  document.getElementById('fb-fout').style.display='none';
+  document.getElementById('feedback-modal').classList.add('open');
+}
+function sluitFeedback(){document.getElementById('feedback-modal').classList.remove('open');}
+
+async function stuurFeedback(){
+  const naam=document.getElementById('fb-naam').value.trim();
+  const bericht=document.getElementById('fb-bericht').value.trim();
+  const foutEl=document.getElementById('fb-fout');
+  foutEl.style.display='none';
+  if(!bericht){foutEl.textContent='Schrijf eerst een bericht.';foutEl.style.display='block';return;}
+  const btn=event.target;btn.disabled=true;btn.textContent='⏳ Versturen…';
+  try{
+    const p=new URLSearchParams({actie:'feedback',naam,bericht});
+    const d=await apiGet(p);
+    if(d.fout) throw new Error(d.fout);
+    document.getElementById('feedback-form-wrap').style.display='none';
+    document.getElementById('feedback-ok').style.display='block';
+  }catch(e){foutEl.textContent='Fout bij versturen: '+e.message;foutEl.style.display='block';}
+  finally{btn.disabled=false;btn.textContent='📨 Verstuur bericht';}
+}
+
 // ── BEHEER ────────────────────────────────────────────────────
 let beheerOk=false;
-function openBeheer() {
-  if (!beheerOk) {
-    const pw=prompt('Beheerderswachtwoord:');
-    if (pw!==BEHEER_WW){alert('Ongeldig wachtwoord.');return;}
-    beheerOk=true;
-  }
+function openBeheer(){
+  if(!beheerOk){const pw=prompt('Beheerderswachtwoord:');if(pw!==BEHEER_WW){alert('Ongeldig wachtwoord.');return;}beheerOk=true;}
   document.getElementById('beheer-modal').classList.add('open');
   renderBeheerLijst();
 }
 function sluitBeheer(){document.getElementById('beheer-modal').classList.remove('open');}
 
-function renderBeheerLijst() {
+function renderBeheerLijst(){
   const lijst=document.getElementById('beheer-lijst');
   const nu=new Date();nu.setHours(0,0,0,0);
   const alle=[...S.speldagen].sort((a,b)=>new Date(a.datum)-new Date(b.datum));
-  if (!alle.length){lijst.innerHTML='<p style="font-size:13px;color:var(--txt2)">Nog geen speldagen.</p>';return;}
+  if(!alle.length){lijst.innerHTML='<p style="font-size:13px;color:var(--txt2)">Nog geen speldagen.</p>';return;}
   lijst.innerHTML=alle.map(d=>{
     const tafels=S.tafels.filter(t=>t.speldagId==d.id).length;
     const res=S.reservaties.filter(r=>r.speldagId==d.id).length;
@@ -792,69 +861,47 @@ function renderBeheerLijst() {
   }).join('');
 }
 
-async function addSpeldag() {
+async function addSpeldag(){
   const datum=document.getElementById('b-datum').value;
   const start=document.getElementById('b-start').value;
   const eind=document.getElementById('b-eind').value;
   const locatie=document.getElementById('b-locatie').value;
-  const foutEl=document.getElementById('beheer-fout');
-  foutEl.style.display='none';
+  const foutEl=document.getElementById('beheer-fout'); foutEl.style.display='none';
   if(!datum||!start||!eind){foutEl.textContent='Vul datum, startuur en einduur in.';foutEl.style.display='block';return;}
-  try {
-    const p=new URLSearchParams({actie:'addSpeldag',datum,startuur:start,einduur:eind,locatie});
-    const d=await apiGet(p);
+  try{
+    const d=await apiGet(new URLSearchParams({actie:'addSpeldag',datum,startuur:start,einduur:eind,locatie}));
     if(d.fout) throw new Error(d.fout);
     await laadData(); renderBeheerLijst();
     document.getElementById('b-datum').value='';
-  } catch(e){foutEl.textContent='Fout: '+e.message;foutEl.style.display='block';}
+  }catch(e){foutEl.textContent='Fout: '+e.message;foutEl.style.display='block';}
 }
 
-async function verwijderDag(id,label) {
+async function verwijderDag(id,label){
   if(!confirm(`"${label}" en alle tafels/reservaties verwijderen?`)) return;
-  try {
-    await apiGet(new URLSearchParams({actie:'deleteSpeldag',speldagId:id}));
-    await laadData(); renderBeheerLijst();
-  } catch(e){alert('Fout: '+e.message);}
+  try{await apiGet(new URLSearchParams({actie:'deleteSpeldag',speldagId:id}));await laadData();renderBeheerLijst();}
+  catch(e){alert('Fout: '+e.message);}
 }
 
 // ── HELPERS ───────────────────────────────────────────────────
-async function apiGet(params){
-  const r=await fetch(API_URL+'?'+params.toString());
-  return await r.json();
-}
+async function apiGet(params){const r=await fetch(API_URL+'?'+params.toString());return await r.json();}
 function toonFout(p,msg){const el=document.getElementById(p+'-fout');el.textContent=msg;el.style.display='block';}
 function verbergFout(p){document.getElementById(p+'-fout').style.display='none';}
 
-// FIX: Google Sheets slaat tijdvelden soms op als 1899-12-30Txx:xx
-// We extraheren enkel het HH:MM gedeelte
-function formatUur(waarde) {
-  if (!waarde) return '';
-  const s = String(waarde);
-  // ISO datum met tijd: pak alleen de tijd
-  const isoMatch = s.match(/T(\d{2}:\d{2})/);
-  if (isoMatch) return isoMatch[1];
-  // Al in HH:MM formaat
-  const tijdMatch = s.match(/(\d{1,2}:\d{2})/);
-  if (tijdMatch) return tijdMatch[1];
-  return s;
+function formatUur(w){
+  if(!w) return '';
+  const s=String(w);
+  const m=s.match(/T(\d{2}:\d{2})/)||s.match(/(\d{1,2}:\d{2})/);
+  return m?m[1]:s;
 }
-
-function formatDatum(d) {
-  if (!d) return '–';
-  // Vermijd tijdzone-verschuiving door datum als lokale datum te parsen
-  const s = String(d).split('T')[0]; // enkel YYYY-MM-DD
-  const [jaar,mnd,dag] = s.split('-').map(Number);
-  if (!jaar) return String(d);
-  const dt = new Date(jaar, mnd-1, dag);
-  return dt.toLocaleDateString('nl-BE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function formatDatum(d){
+  if(!d) return '–';
+  const s=String(d).split('T')[0];
+  const [j,m,dag]=s.split('-').map(Number);
+  if(!j) return String(d);
+  return new Date(j,m-1,dag).toLocaleDateString('nl-BE',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 }
-
-function initialen(naam) {
-  return (naam||'').trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-}
-function esc(s){
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function initialen(n){return (n||'').trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 init();
 </script>
