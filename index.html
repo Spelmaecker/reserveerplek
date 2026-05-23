@@ -866,12 +866,13 @@ function formatUur(w){
   return m?m[1]:s;
 }
 function parseDatum(d){
-  // Altijd lokaal parsen – voorkomt UTC-tijdzone verschuiving
+  // Datum komt nu als YYYY-MM-DD van Apps Script (lokale tijdzone)
+  // Altijd lokaal parsen om UTC-verschuiving te vermijden
   if(!d) return new Date(NaN);
   const s=String(d).split('T')[0];
-  const [j,m,dag]=s.split('-').map(Number);
-  if(!j||!m||!dag) return new Date(NaN);
-  return new Date(j,m-1,dag);
+  const parts=s.split('-').map(Number);
+  if(parts.length<3||!parts[0]) return new Date(NaN);
+  return new Date(parts[0], parts[1]-1, parts[2]); // lokaal, geen UTC
 }
 function formatDatum(d){
   if(!d) return '–';
