@@ -102,7 +102,7 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
   position:absolute;border-radius:50%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   transition:all .2s;cursor:default;
-  overflow:visible !important; /* naam mag buiten */
+  overflow:hidden;
 }
 /* Lege stoel: donkere cirkel met stoelicoontje */
 .stoel.vrij{
@@ -129,32 +129,7 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 }
 
 /* Naam label buiten de stoel */
-.stoel-label{
-  position:absolute;
-  top:calc(100% + 4px);
-  left:50%;transform:translateX(-50%);
-  white-space:nowrap;
-  background:rgba(20,12,4,.85);
-  color:#fff;
-  font-size:9px;
-  font-weight:600;
-  padding:2px 6px;
-  border-radius:4px;
-  pointer-events:none;
-  max-width:80px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  z-index:10;
-}
-.stoel-label .lbl-spel{
-  display:block;
-  color:var(--or);
-  font-size:8px;
-  font-weight:500;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
+/* stoel-label verwijderd */
 .stoel-init{font-weight:800;line-height:1;display:block;color:#fff}
 .stoel-icon{line-height:1;display:block;margin-top:1px}
 
@@ -162,7 +137,7 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .tk-beschikbaar b{color:#5dd882;font-weight:700}
 
 /* Ledenlijst onder tafel */
-.tk-leden{display:flex;flex-direction:column;gap:3px;text-align:left;padding:0 4px;margin-top:4px}
+.tk-leden{display:flex;flex-direction:column;gap:3px;text-align:left;padding:0 4px;margin-top:18px}
 .tk-lid{font-size:10px;color:rgba(255,255,255,.6);display:flex;align-items:flex-start;gap:6px;line-height:1.35}
 .tk-lid-kleur{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:#6a5040;margin-top:3px;border:1px solid var(--or)}
 .tk-lid-kleur.eigen{background:var(--grn);border-color:#5dd882}
@@ -617,24 +592,21 @@ function renderTafelVis(tafel, dag, res, max){
     const cy=Math.round(MID+OR*Math.sin(hoek));
     const x=cx-SR; const y=cy-SR;
     if(!s){
-      // Lege stoel: enkel de cirkel met stoelicoontje via CSS ::after
+      // Lege stoel: stoelicoontje via CSS ::after
       const fs=Math.round(SR*0.55);
       return `<div class="stoel vrij" style="left:${x}px;top:${y}px;width:${SD}px;height:${SD}px;font-size:${fs}px" title="Vrije plek"></div>`;
     }
     const klas = s.eigen||s.partner ? 'eigen' : 'bezet';
-    const init = initialen(s.naam);
-    const icon = s.spel?(SPEL_ICONS[s.spel]||''):'';
-    const fs   = Math.round(SR*0.45);
-    const ifs  = Math.round(SR*0.36);
-    const naamLabel = s.partner ? (s.naam||'partner') : s.naam;
+    const naamLabel = s.naam || '';
     const spelLabel = [s.spel,s.titel].filter(Boolean).join(' · ');
-    return `<div class="stoel ${klas}" style="left:${x}px;top:${y}px;width:${SD}px;height:${SD}px" title="${esc(naamLabel+(spelLabel?' – '+spelLabel:''))}">
-      <span class="stoel-init" style="font-size:${fs}px">${init}</span>
-      ${icon?`<span class="stoel-icon" style="font-size:${ifs}px">${icon}</span>`:''}
-      <div class="stoel-label">
-        ${esc(naamLabel.length>10?naamLabel.slice(0,9)+'…':naamLabel)}
-        ${spelLabel?`<span class="lbl-spel">${esc(spelLabel.length>12?spelLabel.slice(0,11)+'…':spelLabel)}</span>`:''}
-      </div>
+    const icon = s.spel?(SPEL_ICONS[s.spel]||''):'';
+    // Naam in de bol: kort houden, max 2 regels
+    const naamKort = naamLabel.length>12 ? naamLabel.slice(0,11)+'…' : naamLabel;
+    const naamFs = naamLabel.length>8 ? Math.round(SR*0.28) : Math.round(SR*0.32);
+    const iconFs = Math.round(SR*0.32);
+    return `<div class="stoel ${klas}" style="left:${x}px;top:${y}px;width:${SD}px;height:${SD}px;padding:3px;" title="${esc(naamLabel+(spelLabel?' – '+spelLabel:''))}">
+      <span class="stoel-init" style="font-size:${naamFs}px;line-height:1.15;white-space:normal;text-align:center;word-break:break-word;max-width:${SD-6}px">${esc(naamKort)}</span>
+      ${icon?`<span class="stoel-icon" style="font-size:${iconFs}px">${icon}</span>`:''}
     </div>`;
   }).join('');
 
