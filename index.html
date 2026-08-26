@@ -11,12 +11,11 @@
   --or:#fc5802;--or2:#d94b00;--br:#322424;--br2:#3d2b2b;
   --cr:#fdf8f4;--cr2:#f0e6dc;--wit:#fff;--rnd:#ddd0c6;
   --txt:#322424;--txt2:#7a5f5f;--grn:#2a7d4f;
-  /* Tafel kleuren – zelfde stijl als screenshot */
-  --tafel-bg:#1a1008;       /* donkere achtergrond per kaart */
-  --tafel-groen:#2d6a3f;    /* groene tafelvlak */
-  --tafel-groen2:#235232;   /* rand/schaduw */
-  --stoel-leeg:#3a2a1a;     /* lege stoel kleur */
-  --stoel-bezet:#4a3828;    /* bezette stoel donker */
+  --tafel-bg:#1a1008;
+  --tafel-groen:#2d6a3f;
+  --tafel-groen2:#235232;
+  --stoel-leeg:#3a2a1a;
+  --stoel-bezet:#4a3828;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--txt);min-height:100vh;overflow-x:hidden}
@@ -62,20 +61,8 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 /* ── TAFELS GRID ── */
 .tafels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
 
-/* ── TAFELKAART – donkere speeltafel stijl ── */
-.tafelkaart{
-  background:var(--tafel-bg);
-  border:1.5px solid #3a2a18;
-  border-radius:16px;
-  padding:18px 14px 16px;
-  cursor:pointer;
-  transition:all .25s;
-  text-align:center;
-  position:relative;
-  /* hoogte past zich automatisch aan de inhoud aan */
-  height:auto;
-  overflow:visible;
-}
+/* ── TAFELKAART ── */
+.tafelkaart{background:var(--tafel-bg);border:1.5px solid #3a2a18;border-radius:16px;padding:18px 14px 16px;cursor:pointer;transition:all .25s;text-align:center;position:relative;height:auto;overflow:visible}
 .tafelkaart:hover{border-color:#fc5802;box-shadow:0 8px 28px rgba(0,0,0,.4),0 0 0 2px rgba(252,88,2,.2)}
 .tafelkaart.sel{border-color:var(--or);box-shadow:0 0 0 3px rgba(252,88,2,.3),0 8px 28px rgba(0,0,0,.4)}
 .tafelkaart.vol{opacity:.55;cursor:default}
@@ -84,62 +71,20 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .tk-naam{font-weight:700;font-size:15px;color:#fff;margin-bottom:2px}
 .tk-spel{font-size:11px;color:var(--or);font-weight:600;margin-bottom:14px;min-height:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px}
 
-/* ── RONDE TAFEL VISUALISATIE – speeltafelstijl ── */
+/* ── TAFEL VISUALISATIE ── */
 .tafel-vis{position:relative;margin:0 auto 14px;flex-shrink:0}
-
-/* De groene tafel */
-.tafel-cirkel{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  border-radius:50%;
-  background:radial-gradient(circle at 38% 35%, #3a8a52, var(--tafel-groen) 55%, var(--tafel-groen2));
-  border:3px solid #1a4a2a;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  box-shadow:inset 0 2px 12px rgba(0,0,0,.4), 0 4px 20px rgba(0,0,0,.5);
-  z-index:2;
-}
+.tafel-cirkel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 38% 35%, #3a8a52, var(--tafel-groen) 55%, var(--tafel-groen2));border:3px solid #1a4a2a;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 2px 12px rgba(0,0,0,.4), 0 4px 20px rgba(0,0,0,.5);z-index:2}
 .tk-uur{font-weight:800;color:#fff;line-height:1.1;text-shadow:0 1px 3px rgba(0,0,0,.5)}
 .tk-uur-sub{color:rgba(255,255,255,.45);letter-spacing:1px;margin-top:2px;text-transform:uppercase}
-
-/* Stoelen – donkere cirkels met stoelicoontje of naam */
-.stoel{
-  position:absolute;border-radius:50%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  transition:all .2s;cursor:default;
-  overflow:hidden;
-}
-/* Lege stoel: donkere cirkel met stoelicoontje */
-.stoel.vrij{
-  background:radial-gradient(circle at 35% 30%, #5a3f28, var(--stoel-leeg));
-  border:2px solid #5a4030;
-  box-shadow:0 2px 8px rgba(0,0,0,.4);
-}
-.stoel.vrij::after{
-  content:'🪑';
-  font-size:inherit;
-  opacity:.5;
-}
-/* Bezette stoel */
-.stoel.bezet{
-  background:radial-gradient(circle at 35% 30%, #6a5040, var(--stoel-bezet));
-  border:2px solid var(--or);
-  box-shadow:0 2px 8px rgba(0,0,0,.4);
-}
-/* Eigen stoel */
-.stoel.eigen{
-  background:radial-gradient(circle at 35% 30%, #3da862, var(--grn));
-  border:2px solid #5dd882;
-  box-shadow:0 2px 8px rgba(0,0,0,.4),0 0 10px rgba(93,216,130,.3);
-}
-
-/* Naam label buiten de stoel */
-/* stoel-label verwijderd */
+.stoel{position:absolute;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .2s;cursor:default;overflow:hidden}
+.stoel.vrij{background:radial-gradient(circle at 35% 30%, #5a3f28, var(--stoel-leeg));border:2px solid #5a4030;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.stoel.vrij::after{content:'🪑';font-size:inherit;opacity:.5}
+.stoel.bezet{background:radial-gradient(circle at 35% 30%, #6a5040, var(--stoel-bezet));border:2px solid var(--or);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.stoel.eigen{background:radial-gradient(circle at 35% 30%, #3da862, var(--grn));border:2px solid #5dd882;box-shadow:0 2px 8px rgba(0,0,0,.4),0 0 10px rgba(93,216,130,.3)}
 .stoel-init{font-weight:800;line-height:1;display:block;color:#fff}
 .stoel-icon{line-height:1;display:block;margin-top:1px}
-
 .tk-beschikbaar{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px}
 .tk-beschikbaar b{color:#5dd882;font-weight:700}
-
-/* Ledenlijst onder tafel */
 .tk-leden{display:flex;flex-direction:column;gap:3px;text-align:left;padding:0 4px;margin-top:18px}
 .tk-lid{font-size:10px;color:rgba(255,255,255,.6);display:flex;align-items:flex-start;gap:6px;line-height:1.35}
 .tk-lid-kleur{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:#6a5040;margin-top:3px;border:1px solid var(--or)}
@@ -152,47 +97,42 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .form-inner{padding:26px 22px;overflow-y:auto;flex:1}
 .form-inner h2{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:4px}
 .form-sub{font-size:13px;color:var(--txt2);margin-bottom:20px;line-height:1.5}
-
 .tabs{display:flex;border:1.5px solid var(--rnd);border-radius:10px;overflow:hidden;margin-bottom:22px}
 .tab-btn{flex:1;padding:10px 8px;font-size:13px;font-weight:600;border:none;background:var(--cr);color:var(--txt2);transition:.2s;line-height:1.3}
 .tab-btn.actief{background:var(--or);color:#fff}
+.tab-btn:disabled{opacity:.4;cursor:not-allowed}
 .tab-pane{display:none}.tab-pane.actief{display:block}
-
 .sel-box{background:var(--cr2);border:1.5px solid var(--or);border-radius:9px;padding:10px 13px;margin-bottom:16px;font-size:13px}
 .sel-box strong{color:var(--or);display:block;margin-bottom:2px}
 .sel-box small{color:var(--txt2)}
 .btn-desel{background:none;border:none;color:var(--txt2);font-size:11px;text-decoration:underline;margin-top:5px;padding:0;display:block}
-
 .fsec{margin-bottom:15px}
 .flabel{font-size:12px;font-weight:600;color:var(--br);margin-bottom:5px;display:block}
 .flabel em{color:var(--or);font-style:normal}
 .flabel-opt{font-size:11px;color:var(--txt2);font-weight:400;font-style:italic}
-.finput,.fselect,.ftextarea{
-  width:100%;padding:10px 13px;border:1.5px solid var(--rnd);border-radius:8px;
-  font-size:14px;color:var(--txt);background:var(--cr);outline:none;transition:.2s;
-}
+.finput,.fselect,.ftextarea{width:100%;padding:10px 13px;border:1.5px solid var(--rnd);border-radius:8px;font-size:14px;color:var(--txt);background:var(--cr);outline:none;transition:.2s}
 .finput:focus,.fselect:focus,.ftextarea:focus{border-color:var(--or);background:var(--wit)}
 .ftextarea{resize:vertical;min-height:80px}
 .extra-naam{display:none;margin-top:8px}.extra-naam.zichtbaar{display:block}
-
 .speltags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .speltag{padding:5px 11px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid var(--rnd);background:var(--cr);transition:.2s}
 .speltag:hover{border-color:var(--or);color:var(--or)}
 .speltag.actief{background:var(--or);border-color:var(--or);color:#fff}
-
 .pers-rij{display:flex;gap:8px;margin-bottom:4px}
 .pers-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--rnd);background:var(--cr);font-size:15px;font-weight:700;transition:.2s}
 .pers-btn:hover{border-color:var(--or);color:var(--or)}
 .pers-btn.actief{background:var(--or);border-color:var(--or);color:#fff}
-
 .stoelen-rij{display:flex;gap:7px;flex-wrap:wrap}
 .st-btn{width:38px;height:38px;border-radius:8px;border:1.5px solid var(--rnd);background:var(--cr);font-size:14px;font-weight:700;transition:.2s}
 .st-btn:hover{border-color:var(--or)}
 .st-btn.actief{background:var(--br);border-color:var(--br);color:#fff}
-
 .btn-submit{width:100%;padding:14px;background:var(--or);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;transition:.2s;margin-top:4px;letter-spacing:.3px}
 .btn-submit:hover{background:var(--or2);transform:translateY(-1px)}
 .btn-submit:disabled{background:#ccc;cursor:not-allowed;transform:none}
+
+/* Max tafels waarschuwing */
+.max-tafels-banner{background:#fff3e8;border:1.5px solid var(--or);border-radius:9px;padding:11px 14px;font-size:13px;color:var(--br);margin-bottom:14px;display:none}
+.max-tafels-banner b{color:var(--or)}
 
 .succes-scherm{display:none;padding:30px 22px;text-align:center;flex-direction:column;align-items:center;justify-content:center;flex:1}
 .succes-scherm.zichtbaar{display:flex}
@@ -206,13 +146,12 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .btn-kop:hover{background:var(--or)}
 .btn-nieuw{background:none;border:1.5px solid var(--or);color:var(--or);border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;transition:.2s}
 .btn-nieuw:hover{background:var(--or);color:#fff}
-
 .fout-box{background:#fff0ee;border:1.5px solid #ffc4b0;border-radius:9px;padding:11px 14px;font-size:13px;color:#c0392b;margin-bottom:14px}
 .loading{display:flex;align-items:center;justify-content:center;min-height:160px;flex-direction:column;gap:12px;color:var(--txt2)}
 .spinner{width:34px;height:34px;border:3px solid var(--rnd);border-top-color:var(--or);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── MODALS (beheer + feedback) ── */
+/* ── MODALS ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(20,10,5,.7);z-index:500;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--wit);border-radius:16px;width:92%;max-width:520px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(50,36,36,.35)}
@@ -235,8 +174,6 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 .beheer-form label{font-size:11px;font-weight:700;display:block;margin-bottom:4px;color:var(--br)}
 .btn-add{background:var(--or);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;transition:.2s;width:100%}
 .btn-add:hover{background:var(--or2)}
-
-/* Feedback succes */
 .feedback-ok{text-align:center;padding:20px 0;display:none}
 .feedback-ok .fb-icon{font-size:42px;margin-bottom:10px}
 .feedback-ok p{font-size:14px;color:var(--txt2)}
@@ -258,14 +195,12 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
     <p>Play-a-long</p>
   </div>
   <div class="hdr-actions">
-    <button class="btn-feedback" onclick="openFeedback()">💬 Suggestie / foutje</button>
-    <button class="btn-beheer-open" onclick="openBeheer()">⚙ Beheer</button>
+    <button class="btn-feedback" onclick="openFeedback()">Suggestie / foutje</button>
+    <button class="btn-beheer-open" onclick="openBeheer()">Beheer</button>
   </div>
 </header>
 
 <div class="layout">
-
-  <!-- ── LINKS: OVERZICHT ── -->
   <div class="overzicht">
     <div class="pnl-hdr">
       <h2>Komende speldagen</h2>
@@ -276,15 +211,14 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
     </div>
   </div>
 
-  <!-- ── RECHTS: FORMULIER ── -->
   <div class="formulier">
     <div class="form-inner" id="form-paneel">
       <h2>Inschrijven</h2>
       <p class="form-sub">Klik op een bestaande tafel om aan te sluiten, of maak een nieuwe tafel aan.</p>
 
       <div class="tabs">
-        <button class="tab-btn actief" id="tab-aansluiten" onclick="wisselTab('aansluiten')">🪑 Aansluiten bij tafel</button>
-        <button class="tab-btn" id="tab-nieuw" onclick="wisselTab('nieuw')">➕ Nieuwe tafel</button>
+        <button class="tab-btn actief" id="tab-aansluiten" onclick="wisselTab('aansluiten')">Aansluiten bij tafel</button>
+        <button class="tab-btn" id="tab-nieuw" onclick="wisselTab('nieuw')">Nieuwe tafel</button>
       </div>
 
       <!-- TAB: AANSLUITEN -->
@@ -292,11 +226,9 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
         <div id="sel-box" class="sel-box" style="display:none">
           <strong id="sel-tafel-naam">–</strong>
           <small id="sel-dag-info"></small>
-          <button class="btn-desel" onclick="deselecteer()">✕ Andere tafel kiezen</button>
+          <button class="btn-desel" onclick="deselecteer()">Andere tafel kiezen</button>
         </div>
-        <p id="sel-hint" style="font-size:13px;color:var(--txt2);margin-bottom:16px;font-style:italic">← Klik links op een tafel om aan te sluiten.</p>
-
-        <!-- AANTAL EERST -->
+        <p id="sel-hint" style="font-size:13px;color:var(--txt2);margin-bottom:16px;font-style:italic">Klik links op een tafel om aan te sluiten.</p>
         <div class="fsec">
           <label class="flabel">Jullie komen met <em>*</em></label>
           <div class="pers-rij">
@@ -304,7 +236,6 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
             <button class="pers-btn" data-n="2" onclick="kiesPersonen('a',2)">2</button>
           </div>
         </div>
-        <!-- NAMEN -->
         <div class="fsec">
           <label class="flabel">Jouw naam <em>*</em></label>
           <input class="finput" id="a-naam" type="text" placeholder="Voornaam en naam" autocomplete="name">
@@ -319,26 +250,30 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
         <div class="fsec">
           <label class="flabel">Spelcategorie</label>
           <div class="speltags" id="a-speltags">
-            <button class="speltag" onclick="toggleSpel('a',this,'Strategie')">🎯 Strategie</button>
-            <button class="speltag" onclick="toggleSpel('a',this,'Coöperatief')">🤝 Coöperatief</button>
-            <button class="speltag" onclick="toggleSpel('a',this,'Familie')">👨‍👩‍👧 Familie</button>
-            <button class="speltag" onclick="toggleSpel('a',this,'Kaartspel')">🃏 Kaartspel</button>
-            <button class="speltag" onclick="toggleSpel('a',this,'Party')">🎉 Party</button>
-            <button class="speltag" onclick="toggleSpel('a',this,'Economisch')">💰 Economisch</button>
-            <button class="speltag" onclick="toggleSpel('a',this,'Dobbelstenen')">🎲 Dobbelstenen</button>
-            <button class="speltag" onclick="toggleSpel('a',this,'Open voor alles')">✨ Open voor alles</button>
+            <button class="speltag" onclick="toggleSpel('a',this,'Strategie')">Strategie</button>
+            <button class="speltag" onclick="toggleSpel('a',this,'Cooperatief')">Cooperatief</button>
+            <button class="speltag" onclick="toggleSpel('a',this,'Familie')">Familie</button>
+            <button class="speltag" onclick="toggleSpel('a',this,'Kaartspel')">Kaartspel</button>
+            <button class="speltag" onclick="toggleSpel('a',this,'Party')">Party</button>
+            <button class="speltag" onclick="toggleSpel('a',this,'Economisch')">Economisch</button>
+            <button class="speltag" onclick="toggleSpel('a',this,'Dobbelstenen')">Dobbelstenen</button>
+            <button class="speltag" onclick="toggleSpel('a',this,'Open voor alles')">Open voor alles</button>
           </div>
           <input class="finput" id="a-speltitel" type="text" placeholder="Specifieke speltitel (optioneel)" style="margin-top:8px">
         </div>
         <div id="a-fout" class="fout-box" style="display:none"></div>
-        <button class="btn-submit" onclick="doeAansluiten()">🪑 Aansluiten bij tafel</button>
+        <button class="btn-submit" onclick="doeAansluiten()">Aansluiten bij tafel</button>
       </div>
 
       <!-- TAB: NIEUWE TAFEL -->
       <div class="tab-pane" id="pane-nieuw">
+        <div class="max-tafels-banner" id="max-tafels-banner">
+          Het maximum aantal tafels voor deze speldag is bereikt.<br>
+          <b>Sluit aan bij een bestaande tafel.</b>
+        </div>
         <div class="fsec">
           <label class="flabel">Speldag <em>*</em></label>
-          <select class="fselect" id="n-speldag"><option value="">– Kies een speldag –</option></select>
+          <select class="fselect" id="n-speldag" onchange="checkMaxTafels()"><option value="">– Kies een speldag –</option></select>
         </div>
         <div class="fsec">
           <label class="flabel">Naam van je tafel <em>*</em></label>
@@ -362,18 +297,17 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
         <div class="fsec">
           <label class="flabel">Spelcategorie</label>
           <div class="speltags" id="n-speltags">
-            <button class="speltag" onclick="toggleSpel('n',this,'Strategie')">🎯 Strategie</button>
-            <button class="speltag" onclick="toggleSpel('n',this,'Coöperatief')">🤝 Coöperatief</button>
-            <button class="speltag" onclick="toggleSpel('n',this,'Familie')">👨‍👩‍👧 Familie</button>
-            <button class="speltag" onclick="toggleSpel('n',this,'Kaartspel')">🃏 Kaartspel</button>
-            <button class="speltag" onclick="toggleSpel('n',this,'Party')">🎉 Party</button>
-            <button class="speltag" onclick="toggleSpel('n',this,'Economisch')">💰 Economisch</button>
-            <button class="speltag" onclick="toggleSpel('n',this,'Dobbelstenen')">🎲 Dobbelstenen</button>
-            <button class="speltag" onclick="toggleSpel('n',this,'Open voor alles')">✨ Open voor alles</button>
+            <button class="speltag" onclick="toggleSpel('n',this,'Strategie')">Strategie</button>
+            <button class="speltag" onclick="toggleSpel('n',this,'Cooperatief')">Cooperatief</button>
+            <button class="speltag" onclick="toggleSpel('n',this,'Familie')">Familie</button>
+            <button class="speltag" onclick="toggleSpel('n',this,'Kaartspel')">Kaartspel</button>
+            <button class="speltag" onclick="toggleSpel('n',this,'Party')">Party</button>
+            <button class="speltag" onclick="toggleSpel('n',this,'Economisch')">Economisch</button>
+            <button class="speltag" onclick="toggleSpel('n',this,'Dobbelstenen')">Dobbelstenen</button>
+            <button class="speltag" onclick="toggleSpel('n',this,'Open voor alles')">Open voor alles</button>
           </div>
           <input class="finput" id="n-speltitel" type="text" placeholder="Specifieke speltitel (optioneel)" style="margin-top:8px">
         </div>
-        <!-- AANTAL EERST, dan namen -->
         <div class="fsec">
           <label class="flabel">Jullie komen met <em>*</em></label>
           <div class="pers-rij">
@@ -393,18 +327,18 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
           <input class="finput" id="n-email" type="email" placeholder="jouw@email.be">
         </div>
         <div id="n-fout" class="fout-box" style="display:none"></div>
-        <button class="btn-submit" onclick="doeNieuweTafel()">➕ Tafel aanmaken & inschrijven</button>
+        <button class="btn-submit" id="n-submit" onclick="doeNieuweTafel()">Tafel aanmaken en inschrijven</button>
       </div>
     </div>
 
     <div class="succes-scherm" id="succes-scherm">
-      <div class="succes-icon">🎉</div>
+      <div class="succes-icon">&#127881;</div>
       <h2 id="succes-titel">Gelukt!</h2>
       <p id="succes-tekst">Je plek is gereserveerd!</p>
       <div class="deel-box">
-        <p>📎 Deel deze link – anderen sluiten zo aan jouw tafel aan</p>
+        <p>Deel deze link – anderen sluiten zo aan jouw tafel aan</p>
         <span class="deel-url" id="deel-url">–</span>
-        <button class="btn-kop" onclick="kopieerLink()">📋 Kopieer link</button>
+        <button class="btn-kop" onclick="kopieerLink()">Kopieer link</button>
       </div>
       <button class="btn-nieuw" onclick="nieuweInschrijving()">Nog iemand inschrijven</button>
     </div>
@@ -415,7 +349,7 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 <div class="modal-overlay" id="beheer-modal" onclick="if(event.target===this)sluitBeheer()">
   <div class="modal">
     <div class="modal-hdr">
-      <h3>⚙ Beheer speldagen</h3>
+      <h3>Beheer speldagen</h3>
       <button class="modal-sluit" onclick="sluitBeheer()">×</button>
     </div>
     <div class="modal-body">
@@ -432,13 +366,25 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
           <div>
             <label>Locatie *</label>
             <select id="b-locatie">
-              <option value="999 Game Night: Sander&Femke in Heule">999 Game Night: Sander&Femke in Heule</option>
+              <option value="999 Game Night: Sander&Femke in Heule">999 Game Night: Sander&amp;Femke in Heule</option>
               <option value="999 Game Night: Fred in Heule">999 Game Night: Fred in Heule</option>
               <option value="999 Game Night: Davy in Kortrijk">999 Game Night: Davy in Kortrijk</option>
               <option value="999 Game Night: Simen in Beveren-Leie">999 Game Night: Simen in Beveren-Leie</option>
               <option value="999 Game Night: Frederick D. in Beveren-Leie">999 Game Night: Frederick D. in Beveren-Leie</option>
               <option value="De Kernelle">De Kernelle</option>
               <option value="Stedelijke Basisschool Beveren-Leie">Stedelijke Basisschool Beveren-Leie</option>
+            </select>
+          </div>
+          <div class="full">
+            <label>Max. aantal tafels <span style="font-weight:400;color:var(--txt2)">(0 = onbeperkt)</span></label>
+            <select id="b-maxtafels">
+              <option value="0">Onbeperkt</option>
+              <option value="1">Max. 1 tafel</option>
+              <option value="2">Max. 2 tafels</option>
+              <option value="3">Max. 3 tafels</option>
+              <option value="4">Max. 4 tafels</option>
+              <option value="5">Max. 5 tafels</option>
+              <option value="6">Max. 6 tafels</option>
             </select>
           </div>
           <div class="full"><button class="btn-add" onclick="addSpeldag()">+ Speldag toevoegen</button></div>
@@ -453,7 +399,7 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 <div class="modal-overlay" id="feedback-modal" onclick="if(event.target===this)sluitFeedback()">
   <div class="modal" style="max-width:460px">
     <div class="modal-hdr">
-      <h3>💬 Suggestie of foutje melden</h3>
+      <h3>Suggestie of foutje melden</h3>
       <button class="modal-sluit" onclick="sluitFeedback()">×</button>
     </div>
     <div class="modal-body">
@@ -470,10 +416,10 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
           <textarea class="ftextarea" id="fb-bericht" placeholder="Schrijf hier je suggestie of beschrijf het foutje…"></textarea>
         </div>
         <div id="fb-fout" class="fout-box" style="display:none"></div>
-        <button class="btn-submit" onclick="stuurFeedback()">📨 Verstuur bericht</button>
+        <button class="btn-submit" onclick="stuurFeedback()">Verstuur bericht</button>
       </div>
       <div class="feedback-ok" id="feedback-ok">
-        <div class="fb-icon">✅</div>
+        <div class="fb-icon">&#9989;</div>
         <p><strong>Bedankt!</strong><br>Je bericht is verstuurd naar De Spelmaeckers.</p>
       </div>
     </div>
@@ -482,10 +428,10 @@ header{background:var(--br);height:72px;display:flex;align-items:center;gap:16px
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycby-nQyuJqkQNazPqFtUEqrfr_MB5-u3HRGvI368DPsZx_CBQ-WIJ9x3l-r9axAoyvf7ow/exec';
-let BEHEER_TOKEN = null; // wordt server-side opgehaald na login
+let BEHEER_TOKEN = null;
 
 const SPEL_ICONS = {
-  'Strategie':'🎯','Coöperatief':'🤝','Familie':'👨‍👩‍👧',
+  'Strategie':'🎯','Cooperatief':'🤝','Familie':'👨‍👩‍👧',
   'Kaartspel':'🃏','Party':'🎉','Economisch':'💰',
   'Dobbelstenen':'🎲','Open voor alles':'✨'
 };
@@ -518,7 +464,7 @@ async function laadData() {
     renderAlles();
   } catch(e) {
     document.getElementById('speldagen-container').innerHTML=
-      `<div class="fout-box">⚠️ Kon data niet laden.<br><small>${e.message}</small></div>`;
+      '<div class="fout-box">Kon data niet laden.<br><small>'+e.message+'</small></div>';
   }
 }
 
@@ -536,20 +482,26 @@ function renderSpeldagen(){
 
 function renderSpeldag(dag){
   const tafels=S.tafels.filter(t=>t.speldagId==dag.id);
+  const maxT=parseInt(dag.maxTafels)||0;
+  const tafelsVol=maxT>0&&tafels.length>=maxT;
+  const tafelsLabel=maxT>0 ? tafels.length+'/'+maxT : tafels.length;
   const body=tafels.length
-    ?`<div class="tafels-grid">${tafels.map(t=>renderTafelKaart(t,dag)).join('')}</div>`
-    :`<p class="sd-geen">Nog geen tafels – wees de eerste via het formulier →</p>`;
-  return `<div class="speldag" id="dag-${dag.id}">
-    <div class="sd-header">
-      <div class="sd-datumblok">
-        <div class="sd-datum">${formatDatum(dag.datum)}</div>
-        <div class="sd-locatie">📍 ${esc(dag.locatie||'')}</div>
-        <div class="sd-uren">🕐 ${esc(formatUur(dag.startuur))} – ${esc(formatUur(dag.einduur))}</div>
-      </div>
-      <div class="sd-teller"><div class="sd-teller-n">${tafels.length}</div><div class="sd-teller-l">tafels</div></div>
-    </div>
-    <div class="sd-body">${body}</div>
-  </div>`;
+    ?'<div class="tafels-grid">'+tafels.map(t=>renderTafelKaart(t,dag)).join('')+'</div>'
+    :'<p class="sd-geen">Nog geen tafels – wees de eerste via het formulier</p>';
+  return '<div class="speldag" id="dag-'+dag.id+'">'+
+    '<div class="sd-header">'+
+      '<div class="sd-datumblok">'+
+        '<div class="sd-datum">'+formatDatum(dag.datum)+'</div>'+
+        '<div class="sd-locatie">'+esc(dag.locatie||'')+'</div>'+
+        '<div class="sd-uren">'+esc(formatUur(dag.startuur))+' – '+esc(formatUur(dag.einduur))+'</div>'+
+      '</div>'+
+      '<div class="sd-teller">'+
+        '<div class="sd-teller-n">'+tafelsLabel+'</div>'+
+        '<div class="sd-teller-l">tafels'+(tafelsVol?' (vol)':'')+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="sd-body">'+body+'</div>'+
+  '</div>';
 }
 
 function renderTafelKaart(tafel, dag){
@@ -560,87 +512,80 @@ function renderTafelKaart(tafel, dag){
   const isVol = vrij===0;
   const isSel = S.gekozenTafelId==tafel.id;
   const klas  = ['tafelkaart',isSel?'sel':'',isVol?'vol':''].join(' ').trim();
-  const onclick= isVol?'': `onclick="selecteerTafel('${tafel.id}','${dag.id}')"`;
-  const spelLabel=[tafel.spelvoorkeur,tafel.speltitel].filter(Boolean).join(' · ');
-  return `<div class="${klas}" id="tk-${tafel.id}" ${onclick}>
-    ${isVol?'<span class="tk-vol">VOL</span>':''}
-    <div class="tk-naam">${esc(tafel.naam)}</div>
-    <div class="tk-spel">${esc(spelLabel)}</div>
-    ${renderTafelVis(tafel,dag,res,max)}
-    <div class="tk-beschikbaar"><b>${vrij}</b> / ${max} vrije plekken</div>
-    ${renderLedenLijst(res)}
-  </div>`;
+  const onclick= isVol?'': 'onclick="selecteerTafel(\''+tafel.id+'\',\''+dag.id+'\')"';
+  const spelLabel=[tafel.spelvoorkeur,tafel.speltitel].filter(Boolean).join(' - ');
+  return '<div class="'+klas+'" id="tk-'+tafel.id+'" '+onclick+'>'+
+    (isVol?'<span class="tk-vol">VOL</span>':'')+
+    '<div class="tk-naam">'+esc(tafel.naam)+'</div>'+
+    '<div class="tk-spel">'+esc(spelLabel)+'</div>'+
+    renderTafelVis(tafel,dag,res,max)+
+    '<div class="tk-beschikbaar"><b>'+vrij+'</b> / '+max+' vrije plekken</div>'+
+    renderLedenLijst(res)+
+  '</div>';
 }
 
-// ── TAFEL VISUALISATIE ────────────────────────────────────────
 function renderTafelVis(tafel, dag, res, max){
-  // Grootte op basis van aantal stoelen
-  const VIS   = 294; // altijd even groot (= grootte van 8 stoelen: 150 + 8*18)
-  const MID   = VIS / 2;
-  const TR    = Math.round(VIS * 0.20);   // tafel radius
-  const SR    = Math.round(VIS * 0.115);  // stoel radius
-  const OR    = Math.round(VIS * 0.375);  // orbit radius
+  const VIS=294, MID=147;
+  const TR=Math.round(VIS*0.20);
+  const SR=Math.round(VIS*0.115);
+  const OR=Math.round(VIS*0.375);
+  const SD=SR*2;
 
-  // Bouw bezette stoelen
-  let stoelen = [];
+  let stoelen=[];
   res.forEach(r=>{
     const n=Number(r.aantalPersonen)||1;
-    stoelen.push({naam:r.naam, naam2:r.naam2||'', spel:r.spelvoorkeur, titel:r.speltitel||'', eigen:r.id===S.mijnId, partner:false});
-    if(n===2) stoelen.push({naam:r.naam2||r.naam, spel:r.spelvoorkeur, titel:r.speltitel||'', eigen:r.id===S.mijnId, partner:true});
+    stoelen.push({naam:r.naam,spel:r.spelvoorkeur,titel:r.speltitel||'',eigen:r.id===S.mijnId,partner:false});
+    if(n===2) stoelen.push({naam:r.naam2||r.naam,spel:r.spelvoorkeur,titel:r.speltitel||'',eigen:r.id===S.mijnId,partner:true});
   });
   while(stoelen.length<max) stoelen.push(null);
   stoelen=stoelen.slice(0,max);
 
-  const uur = formatUur(tafel.startuur) || formatUur(dag?.startuur) || '';
-  const SD = SR*2; // stoel diameter
+  const uur=formatUur(tafel.startuur)||formatUur(dag&&dag.startuur?dag.startuur:'')||'';
 
-  const stoelHtml = stoelen.map((s,i)=>{
+  const stoelHtml=stoelen.map(function(s,i){
     const hoek=(i*(360/max)-90)*Math.PI/180;
     const cx=Math.round(MID+OR*Math.cos(hoek));
     const cy=Math.round(MID+OR*Math.sin(hoek));
-    const x=cx-SR; const y=cy-SR;
+    const x=cx-SR, y=cy-SR;
     if(!s){
-      // Lege stoel: stoelicoontje via CSS ::after
       const fs=Math.round(SR*0.55);
-      return `<div class="stoel vrij" style="left:${x}px;top:${y}px;width:${SD}px;height:${SD}px;font-size:${fs}px" title="Vrije plek"></div>`;
+      return '<div class="stoel vrij" style="left:'+x+'px;top:'+y+'px;width:'+SD+'px;height:'+SD+'px;font-size:'+fs+'px" title="Vrije plek"></div>';
     }
-    const klas = s.eigen||s.partner ? 'eigen' : 'bezet';
-    const naamLabel = s.naam || '';
-    const spelLabel = [s.spel,s.titel].filter(Boolean).join(' · ');
-    const icon = s.spel?(SPEL_ICONS[s.spel]||''):'';
-    // Naam in de bol: kort houden, max 2 regels
-    const naamKort = naamLabel.length>12 ? naamLabel.slice(0,11)+'…' : naamLabel;
-    const naamFs = naamLabel.length>8 ? Math.round(SR*0.28) : Math.round(SR*0.32);
-    const iconFs = Math.round(SR*0.32);
-    return `<div class="stoel ${klas}" style="left:${x}px;top:${y}px;width:${SD}px;height:${SD}px;padding:3px;" title="${esc(naamLabel+(spelLabel?' – '+spelLabel:''))}">
-      <span class="stoel-init" style="font-size:${naamFs}px;line-height:1.15;white-space:normal;text-align:center;word-break:break-word;max-width:${SD-6}px">${esc(naamKort)}</span>
-      ${icon?`<span class="stoel-icon" style="font-size:${iconFs}px">${icon}</span>`:''}
-    </div>`;
+    const klas=s.eigen||s.partner?'eigen':'bezet';
+    const naamLabel=s.naam||'';
+    const spelLabel=[s.spel,s.titel].filter(Boolean).join(' - ');
+    const icon=s.spel?(SPEL_ICONS[s.spel]||''):'';
+    const naamKort=naamLabel.length>12?naamLabel.slice(0,11)+'...':naamLabel;
+    const naamFs=naamLabel.length>8?Math.round(SR*0.28):Math.round(SR*0.32);
+    const iconFs=Math.round(SR*0.32);
+    return '<div class="stoel '+klas+'" style="left:'+x+'px;top:'+y+'px;width:'+SD+'px;height:'+SD+'px;padding:3px;" title="'+esc(naamLabel+(spelLabel?' - '+spelLabel:''))+'">'+
+      '<span class="stoel-init" style="font-size:'+naamFs+'px;line-height:1.15;white-space:normal;text-align:center;word-break:break-word;max-width:'+(SD-6)+'px">'+esc(naamKort)+'</span>'+
+      (icon?'<span class="stoel-icon" style="font-size:'+iconFs+'px">'+icon+'</span>':'')+
+    '</div>';
   }).join('');
 
-  const tfs  = Math.round(TR*0.58);
-  const tsfs = Math.round(TR*0.28);
-  return `<div class="tafel-vis" style="width:${VIS}px;height:${VIS}px">
-    <div class="tafel-cirkel" style="width:${TR*2}px;height:${TR*2}px">
-      <span class="tk-uur" style="font-size:${tfs}px">${esc(uur)}</span>
-      <span class="tk-uur-sub" style="font-size:${tsfs}px">start</span>
-    </div>
-    ${stoelHtml}
-  </div>`;
+  const tfs=Math.round(TR*0.58), tsfs=Math.round(TR*0.28);
+  return '<div class="tafel-vis" style="width:'+VIS+'px;height:'+VIS+'px">'+
+    '<div class="tafel-cirkel" style="width:'+(TR*2)+'px;height:'+(TR*2)+'px">'+
+      '<span class="tk-uur" style="font-size:'+tfs+'px">'+esc(uur)+'</span>'+
+      '<span class="tk-uur-sub" style="font-size:'+tsfs+'px">start</span>'+
+    '</div>'+
+    stoelHtml+
+  '</div>';
 }
 
 function renderLedenLijst(res){
   if(!res.length) return '';
-  return `<div class="tk-leden">${res.map(r=>{
+  return '<div class="tk-leden">'+res.map(function(r){
     const eigen=r.id===S.mijnId;
     const n=Number(r.aantalPersonen)||1;
-    const spelTxt=[r.spelvoorkeur,r.speltitel].filter(Boolean).join(' · ');
-    const naamTxt=n===2&&r.naam2?`${r.naam} & ${r.naam2}`:n===2?`${r.naam} (+1)`:r.naam;
-    return `<div class="tk-lid">
-      <span class="tk-lid-kleur${eigen?' eigen':''}"></span>
-      <span><span class="tk-lid-naam">${esc(naamTxt)}</span>${spelTxt?` <span class="tk-lid-spel">– ${esc(spelTxt)}</span>`:''}
-      </span></div>`;
-  }).join('')}</div>`;
+    const spelTxt=[r.spelvoorkeur,r.speltitel].filter(Boolean).join(' - ');
+    const naamTxt=n===2&&r.naam2?r.naam+' & '+r.naam2:n===2?r.naam+' (+1)':r.naam;
+    return '<div class="tk-lid">'+
+      '<span class="tk-lid-kleur'+(eigen?' eigen':'')+'"></span>'+
+      '<span><span class="tk-lid-naam">'+esc(naamTxt)+'</span>'+(spelTxt?' <span class="tk-lid-spel">- '+esc(spelTxt)+'</span>':'')+
+      '</span></div>';
+  }).join('')+'</div>';
 }
 
 function vulSpeldagDropdown(){
@@ -648,7 +593,41 @@ function vulSpeldagDropdown(){
   const nu=new Date();nu.setHours(0,0,0,0);
   const komend=S.speldagen.filter(d=>parseDatum(d.datum)>=nu).sort((a,b)=>parseDatum(a.datum)-parseDatum(b.datum));
   sel.innerHTML='<option value="">– Kies een speldag –</option>'+
-    komend.map(d=>`<option value="${d.id}">${formatDatum(d.datum)} – ${d.locatie||''} (${formatUur(d.startuur)}–${formatUur(d.einduur)})</option>`).join('');
+    komend.map(function(d){
+      const maxT=parseInt(d.maxTafels)||0;
+      const huidig=S.tafels.filter(t=>t.speldagId==d.id).length;
+      const vol=maxT>0&&huidig>=maxT;
+      return '<option value="'+d.id+'"'+(vol?' disabled':'')+'>'+
+        formatDatum(d.datum)+' – '+(d.locatie||'')+
+        ' ('+formatUur(d.startuur)+'–'+formatUur(d.einduur)+')'+
+        (vol?' [MAX BEREIKT]':maxT>0?' [nog '+(maxT-huidig)+' tafel(s)]':'')+
+      '</option>';
+    }).join('');
+}
+
+// ── MAX TAFELS CHECK ──────────────────────────────────────────
+function checkMaxTafels(){
+  const speldagId=document.getElementById('n-speldag').value;
+  const banner=document.getElementById('max-tafels-banner');
+  const submitBtn=document.getElementById('n-submit');
+  const foutEl=document.getElementById('n-fout');
+
+  // Reset
+  banner.style.display='none';
+  submitBtn.disabled=false;
+  if(foutEl) foutEl.style.display='none';
+
+  if(!speldagId) return;
+  const dag=S.speldagen.find(d=>d.id==speldagId);
+  if(!dag) return;
+  const maxT=parseInt(dag.maxTafels)||0;
+  if(maxT===0) return; // onbeperkt
+
+  const huidig=S.tafels.filter(t=>t.speldagId==speldagId).length;
+  if(huidig>=maxT){
+    banner.style.display='block';
+    submitBtn.disabled=true;
+  }
 }
 
 // ── INTERACTIE ────────────────────────────────────────────────
@@ -680,12 +659,13 @@ function wisselTab(tab){
     document.getElementById('tab-'+t).classList.toggle('actief',t===tab);
     document.getElementById('pane-'+t).classList.toggle('actief',t===tab);
   });
+  if(tab==='nieuw') checkMaxTafels();
 }
 
 function kiesPersonen(prefix,n){
   if(prefix==='a') S.aantalA=n; else S.aantalN=n;
   const pane=prefix==='a'?'pane-aansluiten':'pane-nieuw';
-  document.querySelectorAll(`#${pane} .pers-btn`).forEach(b=>b.classList.toggle('actief',Number(b.dataset.n)===n));
+  document.querySelectorAll('#'+pane+' .pers-btn').forEach(b=>b.classList.toggle('actief',Number(b.dataset.n)===n));
   const wrap=document.getElementById(prefix+'-naam2-wrap');
   if(wrap) wrap.classList.toggle('zichtbaar',n===2);
 }
@@ -715,17 +695,17 @@ async function doeAansluiten(){
   const tafel=S.tafels.find(t=>t.id==S.gekozenTafelId);
   const res=S.reservaties.filter(r=>r.tafelId==S.gekozenTafelId);
   const bezet=res.reduce((s,r)=>s+Number(r.aantalPersonen||1),0);
-  const vrij=(Number(tafel?.maxStoelen)||6)-bezet;
-  if(vrij<S.aantalA) return toonFout('a',`Nog maar ${vrij} vrije plek(ken) aan deze tafel.`);
-  const btn=event.target; btn.disabled=true; btn.textContent='⏳ Bezig…';
+  const vrij=(Number(tafel&&tafel.maxStoelen?tafel.maxStoelen:6))-bezet;
+  if(vrij<S.aantalA) return toonFout('a','Nog maar '+vrij+' vrije plek(ken) aan deze tafel.');
+  const btn=event.target; btn.disabled=true; btn.textContent='Bezig…';
   try{
     const p=new URLSearchParams({actie:'reserveer',naam,naam2,email,speldagId:S.gekozenSpeldagId,tafelId:S.gekozenTafelId,aantalPersonen:S.aantalA,spelvoorkeur:S.spelA||'',speltitel,opmerking:''});
     const d=await apiGet(p); if(d.fout) throw new Error(d.fout);
     S.mijnId=d.id; sessionStorage.setItem('mijnId',d.id);
     await laadData();
-    toonSucces('Je hebt aangesloten!',`Je plek aan "${tafel?.naam}" is gereserveerd.`,S.gekozenTafelId,S.gekozenSpeldagId);
+    toonSucces('Je hebt aangesloten!','Je plek aan "'+tafel.naam+'" is gereserveerd.',S.gekozenTafelId,S.gekozenSpeldagId);
   }catch(e){toonFout('a','Fout: '+e.message);}
-  finally{btn.disabled=false;btn.textContent='🪑 Aansluiten bij tafel';}
+  finally{btn.disabled=false;btn.textContent='Aansluiten bij tafel';}
 }
 
 // ── NIEUWE TAFEL ──────────────────────────────────────────────
@@ -743,17 +723,27 @@ async function doeNieuweTafel(){
   if(!startuur)  return toonFout('n','Vul het startuur in.');
   if(!naam)      return toonFout('n','Vul je naam in.');
   if(S.aantalN===2&&!naam2) return toonFout('n','Vul ook de naam van je medespeler in.');
-  const btn=event.target; btn.disabled=true; btn.textContent='⏳ Bezig…';
+
+  // Controleer max tafels nogmaals voor verzenden
+  const dag=S.speldagen.find(d=>d.id==speldagId);
+  if(dag){
+    const maxT=parseInt(dag.maxTafels)||0;
+    const huidig=S.tafels.filter(t=>t.speldagId==speldagId).length;
+    if(maxT>0&&huidig>=maxT) return toonFout('n','Het maximum aantal tafels ('+maxT+') voor deze speldag is bereikt.');
+  }
+
+  const btn=event.target; btn.disabled=true; btn.textContent='Bezig…';
   try{
     const d1=await apiGet(new URLSearchParams({actie:'addTafel',speldagId,naam:tafelnaam,maxStoelen:S.maxStoelen,spelvoorkeur:S.spelN||'',speltitel,startuur}));
+    if(d1.fout==='MAX_TAFELS') { toonFout('n','Het maximum aantal tafels voor deze speldag is bereikt.'); return; }
     if(d1.fout) throw new Error(d1.fout);
     const d2=await apiGet(new URLSearchParams({actie:'reserveer',naam,naam2,email,speldagId,tafelId:d1.id,aantalPersonen:S.aantalN,spelvoorkeur:S.spelN||'',speltitel,opmerking:''}));
     if(d2.fout) throw new Error(d2.fout);
     S.mijnId=d2.id; sessionStorage.setItem('mijnId',d2.id);
     await laadData();
-    toonSucces('Tafel aangemaakt!',`Jouw tafel "${tafelnaam}" is klaar. Deel de link zodat anderen aansluiten.`,d1.id,speldagId);
+    toonSucces('Tafel aangemaakt!','Jouw tafel "'+tafelnaam+'" is klaar. Deel de link zodat anderen aansluiten.',d1.id,speldagId);
   }catch(e){toonFout('n','Fout: '+e.message);}
-  finally{btn.disabled=false;btn.textContent='➕ Tafel aanmaken & inschrijven';}
+  finally{btn.disabled=false;btn.textContent='Tafel aanmaken en inschrijven';}
 }
 
 // ── SUCCES ────────────────────────────────────────────────────
@@ -762,26 +752,28 @@ function toonSucces(titel,tekst,tafelId,speldagId){
   document.getElementById('succes-scherm').classList.add('zichtbaar');
   document.getElementById('succes-titel').textContent=titel;
   document.getElementById('succes-tekst').textContent=tekst;
-  document.getElementById('deel-url').textContent=`${location.href.split('?')[0]}?tafel=${tafelId}&dag=${speldagId}`;
+  document.getElementById('deel-url').textContent=location.href.split('?')[0]+'?tafel='+tafelId+'&dag='+speldagId;
 }
 function kopieerLink(){
-  navigator.clipboard.writeText(document.getElementById('deel-url').textContent).then(()=>{
-    const b=document.querySelector('.btn-kop'); b.textContent='✅ Gekopieerd!';
-    setTimeout(()=>b.textContent='📋 Kopieer link',2000);
+  navigator.clipboard.writeText(document.getElementById('deel-url').textContent).then(function(){
+    const b=document.querySelector('.btn-kop'); b.textContent='Gekopieerd!';
+    setTimeout(function(){b.textContent='Kopieer link';},2000);
   });
 }
 function nieuweInschrijving(){
   S.gekozenTafelId=null;S.gekozenSpeldagId=null;S.spelA=null;S.spelN=null;S.aantalA=1;S.aantalN=1;
-  ['a-naam','a-naam2','a-email','a-speltitel','n-naam','n-naam2','n-email','n-tafelnaam','n-speltitel'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['a-naam','a-naam2','a-email','a-speltitel','n-naam','n-naam2','n-email','n-tafelnaam','n-speltitel'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('n-speldag').value='';
-  document.querySelectorAll('.speltag').forEach(b=>b.classList.remove('actief'));
-  document.querySelectorAll('.pers-btn').forEach(b=>b.classList.toggle('actief',b.dataset.n==='1'));
-  document.querySelectorAll('.extra-naam').forEach(el=>el.classList.remove('zichtbaar'));
+  document.querySelectorAll('.speltag').forEach(function(b){b.classList.remove('actief');});
+  document.querySelectorAll('.pers-btn').forEach(function(b){b.classList.toggle('actief',b.dataset.n==='1');});
+  document.querySelectorAll('.extra-naam').forEach(function(el){el.classList.remove('zichtbaar');});
   document.getElementById('sel-box').style.display='none';
   document.getElementById('sel-hint').style.display='block';
-  document.querySelectorAll('.tafelkaart.sel').forEach(el=>el.classList.remove('sel'));
+  document.querySelectorAll('.tafelkaart.sel').forEach(function(el){el.classList.remove('sel');});
   document.getElementById('form-paneel').style.display='';
   document.getElementById('succes-scherm').classList.remove('zichtbaar');
+  document.getElementById('max-tafels-banner').style.display='none';
+  document.getElementById('n-submit').disabled=false;
   wisselTab('aansluiten');
 }
 
@@ -802,15 +794,14 @@ async function stuurFeedback(){
   const foutEl=document.getElementById('fb-fout');
   foutEl.style.display='none';
   if(!bericht){foutEl.textContent='Schrijf eerst een bericht.';foutEl.style.display='block';return;}
-  const btn=event.target;btn.disabled=true;btn.textContent='⏳ Versturen…';
+  const btn=event.target;btn.disabled=true;btn.textContent='Versturen…';
   try{
-    const p=new URLSearchParams({actie:'feedback',naam,bericht});
-    const d=await apiGet(p);
+    const d=await apiGet(new URLSearchParams({actie:'feedback',naam,bericht}));
     if(d.fout) throw new Error(d.fout);
     document.getElementById('feedback-form-wrap').style.display='none';
     document.getElementById('feedback-ok').style.display='block';
   }catch(e){foutEl.textContent='Fout bij versturen: '+e.message;foutEl.style.display='block';}
-  finally{btn.disabled=false;btn.textContent='📨 Verstuur bericht';}
+  finally{btn.disabled=false;btn.textContent='Verstuur bericht';}
 }
 
 // ── BEHEER ────────────────────────────────────────────────────
@@ -822,7 +813,7 @@ async function openBeheer(){
     try{
       const d=await apiGet(new URLSearchParams({actie:'checkWW',ww:pw}));
       if(d.fout||!d.token){alert('Ongeldig wachtwoord.');return;}
-      BEHEER_TOKEN=d.token; // token tijdelijk bewaren in geheugen (niet in code)
+      BEHEER_TOKEN=d.token;
       beheerOk=true;
     }catch(e){alert('Kon niet verbinden.');return;}
   }
@@ -836,17 +827,19 @@ function renderBeheerLijst(){
   const nu=new Date();nu.setHours(0,0,0,0);
   const alle=[...S.speldagen].sort((a,b)=>parseDatum(a.datum)-parseDatum(b.datum));
   if(!alle.length){lijst.innerHTML='<p style="font-size:13px;color:var(--txt2)">Nog geen speldagen.</p>';return;}
-  lijst.innerHTML=alle.map(d=>{
+  lijst.innerHTML=alle.map(function(d){
     const tafels=S.tafels.filter(t=>t.speldagId==d.id).length;
     const res=S.reservaties.filter(r=>r.speldagId==d.id).length;
+    const maxT=parseInt(d.maxTafels)||0;
     const oud=parseDatum(d.datum)<nu;
-    return `<div class="beheer-dag">
-      <div class="beheer-dag-info">
-        <strong>${formatDatum(d.datum)} ${oud?'<span style="background:#f0e6dc;color:#9a6a4a;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600">Voorbij</span>':''}</strong>
-        <small>📍 ${esc(d.locatie||'')} · 🕐 ${esc(formatUur(d.startuur))}–${esc(formatUur(d.einduur))} · ${tafels} tafels · ${res} inschrijvingen</small>
-      </div>
-      <button class="btn-del" onclick="verwijderDag('${d.id}','${formatDatum(d.datum)}')">🗑</button>
-    </div>`;
+    return '<div class="beheer-dag">'+
+      '<div class="beheer-dag-info">'+
+        '<strong>'+formatDatum(d.datum)+(oud?' <span style="background:#f0e6dc;color:#9a6a4a;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:600">Voorbij</span>':'')+'</strong>'+
+        '<small>'+esc(d.locatie||'')+' - '+esc(formatUur(d.startuur))+'–'+esc(formatUur(d.einduur))+
+        ' - '+tafels+(maxT>0?' / '+maxT:'')+' tafels - '+res+' inschrijvingen</small>'+
+      '</div>'+
+      '<button class="btn-del" onclick="verwijderDag(\''+d.id+'\',\''+formatDatum(d.datum)+'\')">Verwijder</button>'+
+    '</div>';
   }).join('');
 }
 
@@ -855,10 +848,11 @@ async function addSpeldag(){
   const start=document.getElementById('b-start').value;
   const eind=document.getElementById('b-eind').value;
   const locatie=document.getElementById('b-locatie').value;
+  const maxTafels=document.getElementById('b-maxtafels').value||'0';
   const foutEl=document.getElementById('beheer-fout'); foutEl.style.display='none';
   if(!datum||!start||!eind){foutEl.textContent='Vul datum, startuur en einduur in.';foutEl.style.display='block';return;}
   try{
-    const d=await apiGet(new URLSearchParams({actie:'addSpeldag',datum,startuur:start,einduur:eind,locatie,token:BEHEER_TOKEN}));
+    const d=await apiGet(new URLSearchParams({actie:'addSpeldag',datum,startuur:start,einduur:eind,locatie,maxTafels,token:BEHEER_TOKEN}));
     if(d.fout) throw new Error(d.fout);
     await laadData(); renderBeheerLijst();
     document.getElementById('b-datum').value='';
@@ -866,9 +860,11 @@ async function addSpeldag(){
 }
 
 async function verwijderDag(id,label){
-  if(!confirm(`"${label}" en alle tafels/reservaties verwijderen?`)) return;
-  try{await apiGet(new URLSearchParams({actie:'deleteSpeldag',speldagId:id,token:BEHEER_TOKEN}));await laadData();renderBeheerLijst();}
-  catch(e){alert('Fout: '+e.message);}
+  if(!confirm('"'+label+'" en alle tafels/reservaties verwijderen?')) return;
+  try{
+    await apiGet(new URLSearchParams({actie:'deleteSpeldag',speldagId:id,token:BEHEER_TOKEN}));
+    await laadData();renderBeheerLijst();
+  }catch(e){alert('Fout: '+e.message);}
 }
 
 // ── HELPERS ───────────────────────────────────────────────────
@@ -883,13 +879,11 @@ function formatUur(w){
   return m?m[1]:s;
 }
 function parseDatum(d){
-  // Datum komt nu als YYYY-MM-DD van Apps Script (lokale tijdzone)
-  // Altijd lokaal parsen om UTC-verschuiving te vermijden
   if(!d) return new Date(NaN);
   const s=String(d).split('T')[0];
   const parts=s.split('-').map(Number);
   if(parts.length<3||!parts[0]) return new Date(NaN);
-  return new Date(parts[0], parts[1]-1, parts[2]); // lokaal, geen UTC
+  return new Date(parts[0],parts[1]-1,parts[2]);
 }
 function formatDatum(d){
   if(!d) return '–';
